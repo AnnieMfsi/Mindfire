@@ -42,7 +42,7 @@
       <div class="container">
          <div class="row">
             <div class="col-lg-12">
-               <form class="form-horizontal">
+               <form action="registration.php" method="POST" class="form-horizontal">
                   <fieldset>
                      <!-- Form Name -->
                      <h1>Registration Form</h1>
@@ -52,30 +52,30 @@
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">Name</label>
                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
-                              <input type="text" class="form-control" id="inputTitle" placeholder="Mr/Ms">
+                              <input type="text" name = "title" class="form-control" id="inputTitle" placeholder="Mr/Ms">
                            </div>
                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                              <input type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+                              <input type="text" name = "firstName" class="form-control" id="inputFirstName" placeholder="First Name">
                            </div>
                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                              <input type="text" class="form-control" id="inputMiddleName" placeholder="Middle Name">
+                              <input type="text" name = "middleName" class="form-control" id="inputMiddleName" placeholder="Middle Name">
                            </div>
                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                              <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                              <input type="text" name = "lastName" class="form-control" id="inputLastName" placeholder="Last Name">
                            </div>
                         </div>
                         <!-- Email input-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="textinput">Email</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                              <input id="textinput" name="textinput" type="text" placeholder="name@email.com" class="form-control input-md">
+                              <input id="textinput" name="email" type="text" placeholder="name@email.com" class="form-control input-md">
                            </div>
                         </div>
                         <!-- phone number input-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="number">Mobile</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                              <input id="number" name="number" type="text" placeholder="9999999999" class="form-control input-md">
+                              <input id="number" name="mobile" type="text" placeholder="9999999999" class="form-control input-md">
                            </div>
                         </div>
                         <!--radio button for gender-->
@@ -100,7 +100,7 @@
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">D.O.B</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                              <input type='date' class="form-control"/>
+                              <input type='date' name="dob" class="form-control"/>
                            </div>
                         </div>
                      </div>
@@ -113,13 +113,13 @@
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                               <label for="Address">Residence Address</label> 
                               <!--Street Name-->
-                              <input id="Address" name="Address" type="text" placeholder="Street" class="form-control input-md address">
+                              <input id="Address" name="resStreet" type="text" placeholder="Street" class="form-control input-md address">
                               <!-- City-->
-                              <input id="city" name="city" type="text" placeholder="city" class="form-control input-md address">
+                              <input id="city" name="resCity" type="text" placeholder="city" class="form-control input-md address">
                               <!-- ZIp -->
-                              <input id="zip" name="zip" type="text" placeholder="Zip" class="form-control input-md address">
+                              <input id="zip" name="resZip" type="text" placeholder="Zip" class="form-control input-md address">
                               <!-- Select State -->
-                              <select id="state" name="state" class="form-control address">
+                              <select id="state" name="resState" class="form-control address">
                                  <option value="0">Select State</option>
                                  <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                  <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -161,13 +161,13 @@
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                               <label for="Address">Office Address</label>
                               <!--Street Name-->
-                              <input id="OfcAddress" name="Address" type="text" placeholder="Street" class="form-control input-md address">
+                              <input id="OfcAddress" name="ofcAddress" type="text" placeholder="Street" class="form-control input-md address">
                               <!-- City-->                          
-                              <input id="OfcCity" name="city" type="text" placeholder="city" class="form-control input-md address">
+                              <input id="OfcCity" name="ofcCity" type="text" placeholder="city" class="form-control input-md address">
                               <!-- Zip-->
-                              <input id="OfcZip" name="zip" type="text" placeholder="Zip" class="form-control input-md address">
+                              <input id="OfcZip" name="ofcZip" type="text" placeholder="Zip" class="form-control input-md address">
                               <!-- Select State -->
-                              <select id="OfcState" name="state" class="form-control address">
+                              <select id="OfcState" name="ofcState" class="form-control address">
                                  <option value="0">Select State</option>
                                  <option value="Andhra Pradesh">Andhra Pradesh</option>
                                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -231,18 +231,18 @@
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <div class="row">
                                  <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label><input type="radio" name="marStatus" checked="checked">Employed</label>
+                                    <label><input type="radio" name="empStatus" checked="checked">Employed</label>
                                  </div>
                                  <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label><input type="radio" name="marStatus">Umemployed</label>
+                                    <label><input type="radio" name="empStatus">Umemployed</label>
                                  </div>
                               </div>
                               <div class="row">
                                  <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label><input type="radio" name="marStatus">Self-Employed</label>
+                                    <label><input type="radio" name="empStatus">Self-Employed</label>
                                  </div>
                                  <div class="radio col-lg- col-md-6 col-sm-6 col-xs-12">
-                                    <label><input type="radio" name="marStatus">Student</label>
+                                    <label><input type="radio" name="empStatus">Student</label>
                                  </div>
                               </div>
                            </div>
@@ -251,13 +251,13 @@
                            <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Employer</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                              <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md">
+                              <input id="textinput" name="employer" type="text" placeholder="" class="form-control input-md">
                            </div>
                         </div>
                         <!-- Image Upload -->
                         <div class="form-group">
                              <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Upload Image</label>  
-                              <label class="btn btn-file col-lg-4 col-md-4 col-sm-4 col-xs-12"><input type="file">
+                              <label class="btn btn-file col-lg-4 col-md-4 col-sm-4 col-xs-12" name= "image"><input type="file">
                               </label>
                               </div>
                         <!-- Communication Medium -->
@@ -267,13 +267,13 @@
                               <div class="row">
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-0">
-                                    <input type="checkbox" name="Communication" id="Communication-0" value="E-Mail">
+                                    <input type="checkbox" name="communication" id="Communication-0" value="E-Mail">
                                     E-Mail
                                     </label>
                                  </div>
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-1">
-                                    <input type="checkbox" name="Communication" id="Communication-1" value="Message">
+                                    <input type="checkbox" name="communication" id="Communication-1" value="Message">
                                     Message
                                     </label>
                                  </div>
@@ -281,13 +281,13 @@
                               <div class="row">
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-2">
-                                    <input type="checkbox" name="Communication" id="Communication-2" value="Phone">
+                                    <input type="checkbox" name="communication" id="Communication-2" value="Phone">
                                     Phone
                                     </label>
                                  </div>
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-3">
-                                    <input type="checkbox" name="Communication" id="Communication-3" value="Any">
+                                    <input type="checkbox" name="communication" id="Communication-3" value="Any">
                                     Any
                                     </label>
                                  </div>
@@ -298,7 +298,7 @@
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Note">Note</label>
                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">                     
-                              <textarea class="form-control" id="Note" name="Note" rows="6" placeholder="Write something about yourself"></textarea>
+                              <textarea class="form-control" id="Note" name="note" rows="6" placeholder="Write something about yourself"></textarea>
                            </div>
                         </div>
                         <div class="row text-center">
