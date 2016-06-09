@@ -1,0 +1,22 @@
+.address{
+margin-bottom: 10px;
+}
+.checkbox-inline+.checkbox-inline, .radio-inline+.radio-inline{
+margin-left: 0px;
+}
+.navbar-fixed-top .nav {
+padding: 15px 0;
+}
+.navbar-fixed-top .navbar-brand {
+padding: 0 15px;
+}
+@media(min-width:768px) {
+.navbar-fixed-top .navbar-brand {
+padding: 15px 0;
+}
+}
+body{
+            background: #000 url("../images/BgIndex.jpg")center center;
+            height: 100%;
+            background-size: cover;
+        }

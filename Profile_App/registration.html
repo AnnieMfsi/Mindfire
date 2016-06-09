@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Registration Form</title>
+      <!-- Bootstrap Core CSS -->
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom CSS -->
+      <link href="css/styles.css" rel="stylesheet">
+      
+      <style type="text/css">
+        
+        .address{
+         margin-bottom: 10px;
+         }
+         .checkbox-inline+.checkbox-inline, .radio-inline+.radio-inline{
+         margin-left: 0px;
+         }
+        </style>
+   </head>
+   <body>
+      <!-- Navigation -->
+      <nav class="navbar navbar-inverse">
+         <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+               <p class="navbar-brand">GetEmpl0yed.com</p>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <ul class="nav navbar-nav">
+               <li class="active">
+                  <a href="home.html">Home</a>
+               </li>
+               <li>
+                  <a href="registration.html">Registration</a>
+               </li>
+            </ul>
+         </div>
+         <!-- /.container -->
+      </nav>
+      <!-- Page Content -->
+      <div class="container">
+      <div class="row">
+         <div class="col-lg-12">
+            <form class="form-horizontal">
+               <fieldset>
+                  <!-- Form Name -->
+                  <h1>Registration Form</h1>
+                  <div class="well">
+                     <h3>Personal Details</h3>
+                     <!--Feilds for name-->
+                     <div class="row form-group">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">Name</label>
+                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
+                           <input type="text" class="form-control" id="inputTitle" placeholder="Mr/Ms">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                           <input type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                           <input type="text" class="form-control" id="inputMiddleName" placeholder="Middle Name">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                           <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                        </div>
+                     </div>
+                     <!-- Email input-->
+                     <div class="row form-group">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="textinput">Email</label>  
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <input id="textinput" name="textinput" type="text" placeholder="name@email.com" class="form-control input-md">
+                        </div>
+                     </div>
+                     <!-- phone number input-->
+                     <div class="row form-group">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="number">Mobile</label>  
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <input id="number" name="number" type="text" placeholder="9999999999" class="form-control input-md">
+                        </div>
+                     </div>
+                     <!--radio button for gender-->
+                     <div class="row form-group">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="gender">Gender</label>
+                        <div class="col-md-4"> 
+                           <label class="radio-inline" for="gender-0">
+                           <input type="radio" name="gender" id="gender-0" value="Male" checked="checked">
+                           Male
+                           </label> 
+                           <label class="radio-inline" for="gender-1">
+                           <input type="radio" name="gender" id="gender-1" value="Female">
+                           Female
+                           </label> 
+                           <label class="radio-inline" for="gender-2">
+                           <input type="radio" name="gender" id="gender-2" value="Others">
+                           Others
+                           </label>
+                        </div>
+                     </div>
+                     <!--date picker for DOB-->
+                     <div class="row form-group">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">D.O.B</label>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <input type='date' class="form-control"/>
+                        </div>
+                     </div>
+                  </div>
+                  <hr>
+                  <div class="well">
+                     <h3>Address Details</h3>
+                     <!-- Address input-->
+                     <!--Resident Address-->
+                     <div class="row form-group address">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                           <label for="Address">Residence Address</label> 
+                           <input id="Address" name="Address" type="text" placeholder="Street" class="form-control input-md address">
+                           <input id="city" name="city" type="text" placeholder="city" class="form-control input-md address">
+                           <input id="zip" name="zip" type="text" placeholder="Zip" class="form-control input-md address">
+                           <select id="state" name="state" class="form-control address">
+                              <option value="0">Select State</option>
+                              <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                              <option value="Andhra Pradesh">Andhra Pradesh</option>
+                              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                              <option value="Daman and Diu">Daman and Diu</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">Himachal Pradesh</option>
+                              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Madhya Pradesh">Madhya Pradesh</option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Orissa">Orissa</option>
+                              <option value="Pondicherry">Pondicherry</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttaranchal">Uttaranchal</option>
+                              <option value="Uttar Pradesh">Uttar Pradesh</option>
+                              <option value="West Bengal">West Bengal</option>
+                           </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                           <label for="Address">Office Address</label>
+                           <!--Street Name-->
+                           <input id="OfcAddress" name="Address" type="text" placeholder="Street" class="form-control input-md address">
+                           <!-- City-->                          
+                           <input id="OfcCity" name="city" type="text" placeholder="city" class="form-control input-md address">
+                           <!-- Zip-->
+                           <input id="OfcZip" name="zip" type="text" placeholder="Zip" class="form-control input-md address">
+                           <!-- Select State -->
+                           <select id="OfcState" name="state" class="form-control address">
+                              <option value="0">Select State</option>
+                              <option value="Andhra Pradesh">Andhra Pradesh</option>
+                              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                              <option value="Daman and Diu">Daman and Diu</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">Himachal Pradesh</option>
+                              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Madhya Pradesh">Madhya Pradesh</option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Orissa">Orissa</option>
+                              <option value="Pondicherry">Pondicherry</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttaranchal">Uttaranchal</option>
+                              <option value="Uttar Pradesh">Uttar Pradesh</option>
+                              <option value="West Bengal">West Bengal</option>
+                           </select>
+                        </div>
+                     </div>
+                     </div>
+                     <div class="well">
+                        <h3>Other Details</h3>
+                        <!--Marital Status-->
+                        <div class="form-group">
+                           <label class= "col-lg-2 col-md-2 col-sm-2 col-xs-12" for="marStatus">Marital Status</label>
+                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                              <select id="marStatus" name="marStatus" class="form-control">
+                                 <option value="0">Status</option>
+                                 <option value="Single">Single</option>
+                                 <option value="Married">Married</option>
+                                 <option value="Divorced">Divorced</option>
+                                 <option value="Widow">Widow</option>
+                                 <option value="Widower">Widower</option>
+                              </select>
+                           </div>
+                        </div>
+                        <!--Radio button for employment status-->
+                        <div class="form-group">
+                           <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="marStatus">
+                           Employement Status</label>
+                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                              <div class="row">
+                                 <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label><input type="radio" name="marStatus" checked="checked">Employed</label>
+                                 </div>
+                                 <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label><input type="radio" name="marStatus">Umemployed</label>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label><input type="radio" name="marStatus">Self-Employed</label>
+                                 </div>
+                                 <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label><input type="radio" name="marStatus">Student</label>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Employer</label>  
+                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                              <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md">
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Upload Image</label>  
+                           <label class="btn btn-file col-lg-4 col-md-4 col-sm-4 col-xs-12"><input type="file">
+                           </label>
+                        </div>
+                        <!-- Communication Medium -->
+                        <div class="form-group">
+                           <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Communication">Communicate via</label>
+                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                              <div class="checkbox">
+                                 <label for="Communication-0">
+                                 <input type="checkbox" name="Communication" id="Communication-0" value="E-Mail">
+                                 E-Mail
+                                 </label>
+                              </div>
+                              <div class="checkbox">
+                                 <label for="Communication-1">
+                                 <input type="checkbox" name="Communication" id="Communication-1" value="Message">
+                                 Message
+                                 </label>
+                              </div>
+                              <div class="checkbox">
+                                 <label for="Communication-2">
+                                 <input type="checkbox" name="Communication" id="Communication-2" value="Phone">
+                                 Phone
+                                 </label>
+                              </div>
+                              <div class="checkbox">
+                                 <label for="Communication-3">
+                                 <input type="checkbox" name="Communication" id="Communication-3" value="Any">
+                                 Any
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- Textarea -->
+                        <div class="form-group">
+                           <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Note">Note</label>
+                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">                     
+                              <textarea class="form-control" id="Note" name="Note" rows="6" placeholder="Write something about yourself"></textarea>
+                           </div>
+                        </div>
+                        <div class="row text-center" >
+                           <button type="submit" class="btn btn-success" role="button">Submit
+                           </button>
+                           <button type="reset" class="btn btn-primary" role="button">Reset
+                           </button>
+                        </div>
+                     </div>
+               </fieldset>
+            </form>
+            </div>
+         </div>
+      </div>
+      <!-- /.container -->
+      <!-- jQuery -->
+      <script src="js/jquery.js"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script src="js/bootstrap.min.js"></script>
+   </body>
+</html>

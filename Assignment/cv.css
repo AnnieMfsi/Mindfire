@@ -1,0 +1,37 @@
+
+img {
+height: 180px;
+width: 180px;
+margin-bottom: 8px;
+}
+h2, h3{
+color:#AB47BC;
+font-style: italic;
+font-family: fantasy;
+}
+h2{
+text-align: center;
+}
+tr {
+height:25px;
+}
+.container {
+border: 0.3em solid #9C27B0;
+background-color: #F3E5F5;
+}
+p{
+font-size: 1.2em;
+}
+hr {
+margin-top: 20px;
+margin-bottom: 20px;
+border: 0;
+border-top: 1px solid #E1BEE7;
+}
+
+ul li{
+font-size: 1.2em;
+}
+div.col-lg-3.col-md-3.col-sm-3.col-xs-3, div.col-lg-9.col-md-9.col-sm-9.col-xs-9{
+   font-size: larger;
+}
