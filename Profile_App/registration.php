@@ -5,7 +5,14 @@ if(!isset($_COOKIE['errors'])) {
      echo "Value is: " . $_COOKIE['errors'];
 }
 
+
+if(isset($_GET['edit'])){
+	$update = 1;
+	$empId = $_GET['edit'];
+   }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +66,18 @@ if(!isset($_COOKIE['errors'])) {
                <form action="add.php" method="POST" class="form-horizontal">
                   <fieldset>
                      <!-- Form Name -->
-                     <h1>Registration Form</h1>
+					<?php 
+						if (1 == $update) {
+							?>
+							<h1>Update Form</h1> 
+							<?php
+						}
+							else{
+								?>
+								<h1>Registration Form</h1>
+							<?php
+						}
+					?>                     
                      <div class="well">
                         <h3>Personal Details</h3>
                         <!--Feilds for name-->
@@ -316,10 +334,25 @@ if(!isset($_COOKIE['errors'])) {
                            </div>
                         </div>
                         <div class="row text-center">
-                           <button type="submit" class="btn btn-success" role="button">Submit
+
+                        	<?php 
+						if (1 == $update) {
+							?>
+							<button type="submit" class="btn btn-success" role="button">Submit
                            </button>
                            <button type="reset" class="btn btn-primary" role="button">Reset
+                           </button> 
+							<?php
+						}
+							else{
+								?>
+								<button type="submit" class="btn btn-success" role="button">Submit
                            </button>
+                           <button type="reset" class="btn btn-primary" role="button">Reset
+                           </button>>
+							<?php
+						}
+					?> 
                         </div>
                      </div>
                   </fieldset>
