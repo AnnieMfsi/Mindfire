@@ -103,7 +103,9 @@
             <?php 
                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { ?>
             <tr>
-               <?php foreach ($row as $key => $value) { ?>
+               <?php foreach ($row as $key => $value) {
+                     
+                      ?>
                <td> <?php 
                   echo $value
                   ?> </td>

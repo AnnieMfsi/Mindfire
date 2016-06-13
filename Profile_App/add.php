@@ -30,7 +30,7 @@
      $empStatus = isset($_POST['empStatus']) ? $_POST['empStatus'] : '';
      $employer = isset($_POST['employer']) ? $_POST['employer'] : '';
      $image = isset($_POST['image']) ? $_POST['image'] : '';
-     $communication = (isset($_POST['comm']) && !empty($_POST['comm'])) ? implode(", ", $_POST['comm']) : '';
+     $communication = (isset($_POST['comm']) && !empty($_POST['comm'])) ? implode(", " , $_POST['comm']) : '';
      $note = isset($_POST['note']) ? $_POST['note'] : '';
    
    
@@ -41,8 +41,8 @@
     }
    
     // Insert personal details
-     $employee = "INSERT INTO Employee(title, firstName, middleName, lastName, dateOfBirth, gender, phone, email, maritalStatus, commId, note, employer)
-      VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$communication', '$note', '$employer')";
+     $employee = "INSERT INTO Employee(title, firstName, middleName, lastName, dateOfBirth, gender, phone, email, maritalStatus, empStatus, commId, note, employer)
+      VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$empStatus', '$communication', '$note', '$employer')";
    
       echo $employee;
 
@@ -65,7 +65,7 @@
 
       echo "Thanks for Your Interest.";
 
-      // Print auto-generated id
+      //Print auto-generated id
       echo "New record has id: " . mysqli_insert_id($conn);
 
       header('Location:list.php');

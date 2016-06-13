@@ -25,7 +25,7 @@
      die('Failed to connect to database' .mysqli_connect_error());
     }
    
-    $selectQuery = "SELECT Employee.empId AS EmpID, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
+    $selectQuery = "SELECT Employee.empId, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
                           Residence.street AS resStreet, Residence.city AS resCity , Residence.zip AS resZip, Residence.state AS resState,
                           Office.street AS ofcStreet, Office.city AS ofcCity , Office.zip AS ofcZip, Office.state AS ofcState,
                           Employee.maritalStatus, Employee.empStatus, 
@@ -97,7 +97,6 @@
                   <fieldset>
                      <!-- Form Name -->
                      <?php 
-                     echo date('m/d/Y', strtotime($row['dateOfBirth']));
                         if (1 == $update) {
                         	?>
                      <h1>Update Form</h1>
@@ -111,6 +110,11 @@
                         ?>                     
                      <div class="well">
                         <h3>Personal Details</h3>
+
+                        <input type="hidden" name="checkUpdate" value="<?php echo $update; ?>">
+                        <input type="hidden" name="employeeId" value="<?php echo ($update) ? $row['empId'] : 0; ?>">
+
+
                         <!--Feilds for name-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">Name</label>
@@ -163,7 +167,7 @@
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">D.O.B</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                              <input type='date'  name="dob" class="form-control" value="<?php echo ($update) ? date('m/d/Y', strtotime($row['dateOfBirth'])) : ''; ?>"/>
+                              <input type='date'  name="dob" class="form-control" value="<?php echo ($update) ? $row['dateOfBirth'] : ''; ?>"/>
                            </div>
                         </div>
                      </div>
@@ -182,43 +186,43 @@
                               <!-- ZIp -->
                               <input id="zip" name="resZip" type="text" placeholder="Zip" class="form-control input-md address" value=" <?php echo ($update) ? $row['resZip'] : ''; ?> ">
                               <!-- Select State -->
-                              <select id="state" name="resState" class="form-control address" <?php echo ($update) ? $row['resState'] : ''; ?>>
-                                 <option value="0">Select State</option>
-                                 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                 <option value="Assam">Assam</option>
-                                 <option value="Bihar">Bihar</option>
-                                 <option value="Chandigarh">Chandigarh</option>
-                                 <option value="Chhattisgarh">Chhattisgarh</option>
-                                 <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                                 <option value="Daman and Diu">Daman and Diu</option>
-                                 <option value="Delhi">Delhi</option>
-                                 <option value="Goa">Goa</option>
-                                 <option value="Gujarat">Gujarat</option>
-                                 <option value="Haryana">Haryana</option>
-                                 <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                 <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                                 <option value="Jharkhand">Jharkhand</option>
-                                 <option value="Karnataka">Karnataka</option>
-                                 <option value="Kerala">Kerala</option>
-                                 <option value="Lakshadweep">Lakshadweep</option>
-                                 <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                 <option value="Maharashtra">Maharashtra</option>
-                                 <option value="Manipur">Manipur</option>
-                                 <option value="Meghalaya">Meghalaya</option>
-                                 <option value="Mizoram">Mizoram</option>
-                                 <option value="Nagaland">Nagaland</option>
-                                 <option value="Orissa">Orissa</option>
-                                 <option value="Pondicherry">Pondicherry</option>
-                                 <option value="Punjab">Punjab</option>
-                                 <option value="Rajasthan">Rajasthan</option>
-                                 <option value="Sikkim">Sikkim</option>
-                                 <option value="Tamil Nadu">Tamil Nadu</option>
-                                 <option value="Tripura">Tripura</option>
-                                 <option value="Uttaranchal">Uttaranchal</option>
-                                 <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                 <option value="West Bengal">West Bengal</option>
+                            <select id="state" name="resState" class="form-control address">
+                            <option value="0">Select State</option>
+                                 <option value="Andaman and Nicobar Islands" <?php echo ($update && 'Andaman and Nicobar Islands' == $row['resState']) ? 'selected' : ''; ?>>Andaman and Nicobar Islands</option>
+                                 <option value="Andhra Pradesh" <?php echo ($update && 'Andhra Pradesh' == $row['resState']) ? 'selected' : ''; ?>>Andhra Pradesh</option>
+                                 <option value="Arunachal Pradesh" <?php echo ($update && 'Arunachal Pradesh' == $row['resState']) ? 'selected' : ''; ?>>Arunachal Pradesh</option>
+                                 <option value="Assam" <?php echo ($update && 'Assam' == $row['resState']) ? 'selected' : ''; ?>>Assam</option>
+                                 <option value="Bihar" <?php echo ($update && 'Bihar' == $row['resState']) ? 'selected' : ''; ?>>Bihar</option>
+                                 <option value="Chandigarh" <?php echo ($update && 'Chandigarh' == $row['resState']) ? 'selected' : ''; ?>>Chandigarh</option>
+                                 <option value="Chhattisgarh" <?php echo ($update && 'Chhattisgarh' == $row['resState']) ? 'selected' : ''; ?>>Chhattisgarh</option>
+                                 <option value="Dadra and Nagar Haveli" <?php echo ($update && 'Dadra and Nagar Haveli' == $row['resState']) ? 'selected' : ''; ?>>Dadra and Nagar Haveli</option>
+                                 <option value="Daman and Diu" <?php echo ($update && 'Daman and Diu' == $row['resState']) ? 'selected' : ''; ?>>Daman and Diu</option>
+                                 <option value="Delhi"<?php echo ($update && 'Delhi' == $row['resState']) ? 'selected' : ''; ?>>Delhi</option>
+                                 <option value="Goa" <?php echo ($update && 'Goa' == $row['resState']) ? 'selected' : ''; ?>>Goa</option>
+                                 <option value="Gujarat"<?php echo ($update && 'Gujarat' == $row['resState']) ? 'selected' : ''; ?>>Gujarat</option>
+                                 <option value="Haryana" <?php echo ($update && 'Haryana' == $row['resState']) ? 'selected' : ''; ?>>Haryana</option>
+                                 <option value="Himachal Pradesh" <?php echo ($update && 'Himachal Pradesh' == $row['resState']) ? 'selected' : ''; ?>>Himachal Pradesh</option>
+                                 <option value="Jammu and Kashmir" <?php echo ($update && 'Jammu and Kashmir' == $row['resState']) ? 'selected' : ''; ?>>Jammu and Kashmir</option>
+                                 <option value="Jharkhand" <?php echo ($update && 'Jharkhand' == $row['resState']) ? 'selected' : ''; ?>>Jharkhand</option>
+                                 <option value="Karnataka" <?php echo ($update && 'Karnataka' == $row['resState']) ? 'selected' : ''; ?>>Karnataka</option>
+                                 <option value="Kerala" <?php echo ($update && 'Kerala' == $row['resState']) ? 'selected' : ''; ?>>Kerala</option>
+                                 <option value="Lakshadweep" <?php echo ($update && 'Lakshadweep' == $row['resState']) ? 'selected' : ''; ?>>Lakshadweep</option>
+                                 <option value="Madhya Pradesh" <?php echo ($update && 'Madhya Pradesh' == $row['resState']) ? 'selected' : ''; ?>>Madhya Pradesh</option>
+                                 <option value="Maharashtra" <?php echo ($update && 'Maharashtra' == $row['resState']) ? 'selected' : ''; ?>>Maharashtra</option>
+                                 <option value="Manipur" <?php echo ($update && 'Manipur' == $row['resState']) ? 'selected' : ''; ?>>Manipur</option>
+                                 <option value="Meghalaya"<?php echo ($update && 'Meghalaya' == $row['resState']) ? 'selected' : ''; ?>>Meghalaya</option>
+                                 <option value="Mizoram"<?php echo ($update && 'Mizoram' == $row['resState']) ? 'selected' : ''; ?>>Mizoram</option>
+                                 <option value="Nagaland"<?php echo ($update && 'Nagaland' == $row['resState']) ? 'selected' : ''; ?>"Nagaland</option>
+                                 <option value="Orissa"<?php echo ($update && 'Orissa' == $row['resState']) ? 'selected' : ''; ?>>Orissa</option>
+                                 <option value="Pondicherry"<?php echo ($update && 'Pondicherry' == $row['resState']) ? 'selected' : ''; ?>>Pondicherry</option>
+                                 <option value="Punjab" <?php echo ($update && 'Punjab' == $row['resState']) ? 'selected' : ''; ?>>Punjab</option>
+                                 <option value="Rajasthan"<?php echo ($update && 'Rajasthan' == $row['resState']) ? 'selected' : ''; ?>>Rajasthan</option>
+                                 <option value="Sikkim"<?php echo ($update && 'Sikkim' == $row['resState']) ? 'selected' : ''; ?>>Sikkim</option>
+                                 <option value="Tamil Nadu" <?php echo ($update && 'Tamil Nadu' == $row['resState']) ? 'selected' : ''; ?>>Tamil Nadu</option>
+                                 <option value="Tripura" <?php echo ($update && 'Tripura' == $row['resState']) ? 'selected' : ''; ?>>Tripura</option>
+                                 <option value="Uttaranchal" <?php echo ($update && 'Uttaranchal' == $row['resState']) ? 'selected' : ''; ?>>Uttaranchal</option>
+                                 <option value="Uttar Pradesh" <?php echo ($update && 'Uttar Pradesh' == $row['resState']) ? 'selected' : ''; ?>>Uttar Pradesh</option>
+                                 <option value="West Bengal" <?php echo ($update && 'West Bengal' == $row['resState']) ? 'selected' : ''; ?>>West Bengal</option>
                               </select>
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -232,40 +236,41 @@
                               <!-- Select State -->
                               <select id="OfcState" name="ofcState" class="form-control address" value=" <?php echo ($update) ? $row['ofcState'] : ''; ?> ">
                                  <option value="0">Select State</option>
-                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                 <option value="Assam">Assam</option>
-                                 <option value="Bihar">Bihar</option>
-                                 <option value="Chandigarh">Chandigarh</option>
-                                 <option value="Chhattisgarh">Chhattisgarh</option>
-                                 <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                                 <option value="Daman and Diu">Daman and Diu</option>
-                                 <option value="Delhi">Delhi</option>
-                                 <option value="Goa">Goa</option>
-                                 <option value="Gujarat">Gujarat</option>
-                                 <option value="Haryana">Haryana</option>
-                                 <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                 <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                                 <option value="Jharkhand">Jharkhand</option>
-                                 <option value="Karnataka">Karnataka</option>
-                                 <option value="Kerala">Kerala</option>
-                                 <option value="Lakshadweep">Lakshadweep</option>
-                                 <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                 <option value="Maharashtra">Maharashtra</option>
-                                 <option value="Manipur">Manipur</option>
-                                 <option value="Meghalaya">Meghalaya</option>
-                                 <option value="Mizoram">Mizoram</option>
-                                 <option value="Nagaland">Nagaland</option>
-                                 <option value="Orissa">Orissa</option>
-                                 <option value="Pondicherry">Pondicherry</option>
-                                 <option value="Punjab">Punjab</option>
-                                 <option value="Rajasthan">Rajasthan</option>
-                                 <option value="Sikkim">Sikkim</option>
-                                 <option value="Tamil Nadu">Tamil Nadu</option>
-                                 <option value="Tripura">Tripura</option>
-                                 <option value="Uttaranchal">Uttaranchal</option>
-                                 <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                 <option value="West Bengal">West Bengal</option>
+                                 <option value="Andaman and Nicobar Islands" <?php echo ($update && 'Andaman and Nicobar Islands' == $row['ofcState']) ? 'selected' : ''; ?>>Andaman and Nicobar Islands</option>
+                                 <option value="Andhra Pradesh"<?php echo ($update && 'Andhra Pradesh' == $row['ofcState']) ? 'selected' : ''; ?>>Andhra Pradesh</option>
+                                 <option value="Arunachal Pradesh"<?php echo ($update && 'Arunachal Pradesh' == $row['ofcState']) ? 'selected' : ''; ?>>Arunachal Pradesh</option>
+                                 <option value="Assam"<?php echo ($update && 'Assam' == $row['ofcState']) ? 'selected' : ''; ?>>Assam</option>
+                                 <option value="Bihar"<?php echo ($update && 'Bihar' == $row['ofcState']) ? 'selected' : ''; ?>>Bihar</option>
+                                 <option value="Chandigarh"<?php echo ($update && 'Chandigarh' == $row['ofcState']) ? 'selected' : ''; ?>>Chandigarh</option>
+                                 <option value="Chhattisgarh"<?php echo ($update && 'Chhattisgarh' == $row['ofcState']) ? 'selected' : ''; ?>>Chhattisgarh</option>
+                                 <option value="Dadra and Nagar Haveli"<?php echo ($update && 'Dadra and Nagar Haveli' == $row['ofcState']) ? 'selected' : ''; ?>>Dadra and Nagar Haveli</option>
+                                 <option value="Daman and Diu"<?php echo ($update && 'Daman and Diu' == $row['ofcState']) ? 'selected' : ''; ?>>Daman and Diu</option>
+                                 <option value="Delhi"<?php echo ($update && 'Delhi' == $row['ofcState']) ? 'selected' : ''; ?>>Delhi</option>
+                                 <option value="Goa"<?php echo ($update && 'Goa' == $row['ofcState']) ? 'selected' : ''; ?>>Goa</option>
+                                 <option value="Gujarat"<?php echo ($update && 'Gujarat' == $row['ofcState']) ? 'selected' : ''; ?>>Gujarat</option>
+                                 <option value="Haryana"<?php echo ($update && 'Haryana' == $row['ofcState']) ? 'selected' : ''; ?>>Haryana</option>
+                                 <option value="Himachal Pradesh"<?php echo ($update && 'Himachal Pradesh' == $row['ofcState']) ? 'selected' : ''; ?>>Himachal Pradesh</option>
+                                 <option value="Jammu and Kashmir"<?php echo ($update && 'Jammu and Kashmir' == $row['ofcState']) ? 'selected' : ''; ?>>Jammu and Kashmir</option>
+                                 <option value="Jharkhand"<?php echo ($update && 'Jharkhand' == $row['ofcState']) ? 'selected' : ''; ?>>Jharkhand</option>
+                                 <option value="Karnataka"<?php echo ($update && 'Karnataka' == $row['ofcState']) ? 'selected' : ''; ?>>Karnataka</option>
+                                 <option value="Kerala"<?php echo ($update && 'Kerala' == $row['ofcState']) ? 'selected' : ''; ?>>Kerala</option>
+                                 <option value="Lakshadweep"<?php echo ($update && 'Lakshadweep' == $row['ofcState']) ? 'selected' : ''; ?>>Lakshadweep</option>
+                                 <option value="Madhya Pradesh"<?php echo ($update && 'Madhya Pradesh' == $row['ofcState']) ? 'selected' : ''; ?>>Madhya Pradesh</option>
+                                 <option value="Maharashtra"<?php echo ($update && 'Maharashtra' == $row['ofcState']) ? 'selected' : ''; ?>>Maharashtra</option>
+                                 <option value="Manipur"<?php echo ($update && 'Manipur' == $row['ofcState']) ? 'selected' : ''; ?>>Manipur</option>
+                                 <option value="Meghalaya"<?php echo ($update && 'Meghalaya' == $row['ofcState']) ? 'selected' : ''; ?>>Meghalaya</option>
+                                 <option value="Mizoram"<?php echo ($update && 'Mizoram' == $row['ofcState']) ? 'selected' : ''; ?>>Mizoram</option>
+                                 <option value="Nagaland"<?php echo ($update && 'Nagaland' == $row['ofcState']) ? 'selected' : ''; ?>"Nagaland</option>
+                                 <option value="Orissa"<?php echo ($update && 'Orissa' == $row['ofcState']) ? 'selected' : ''; ?>>Orissa</option>
+                                 <option value="Pondicherry"<?php echo ($update && 'Pondicherry' == $row['ofcState']) ? 'selected' : ''; ?>>Pondicherry</option>
+                                 <option value="Punjab" <?php echo ($update && 'Punjab' == $row['ofcState']) ? 'selected' : ''; ?>>Punjab</option>
+                                 <option value="Rajasthan"<?php echo ($update && 'Rajasthan' == $row['ofcState']) ? 'selected' : ''; ?>>Rajasthan</option>
+                                 <option value="Sikkim"<?php echo ($update && 'Sikkim' == $row['ofcState']) ? 'selected' : ''; ?>>Sikkim</option>
+                                 <option value="Tamil Nadu" <?php echo ($update && 'Tamil Nadu' == $row['ofcState']) ? 'selected' : ''; ?>>Tamil Nadu</option>
+                                 <option value="Tripura" <?php echo ($update && 'Tripura' == $row['ofcState']) ? 'selected' : ''; ?>>Tripura</option>
+                                 <option value="Uttaranchal" <?php echo ($update && 'Uttaranchal' == $row['ofcState']) ? 'selected' : ''; ?>>Uttaranchal</option>
+                                 <option value="Uttar Pradesh" <?php echo ($update && 'Uttar Pradesh' == $row['ofcState']) ? 'selected' : ''; ?>>Uttar Pradesh</option>
+                                 <option value="West Bengal" <?php echo ($update && 'West Bengal' == $row['ofcState']) ? 'selected' : ''; ?>>West Bengal</option>
                               </select>
                            </div>
                         </div>
@@ -278,11 +283,11 @@
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <select id="marStatus" name="marStatus" class="form-control" >
                                  <option value="0">Status</option>
-                                 <option value="single">Single</option>
-                                 <option value="married">Married</option>
-                                 <option value="divorced">Divorced</option>
-                                 <option value="widow">Widow</option>
-                                 <option value="widower">Widower</option>
+                                 <option value="single" <?php echo  ($update && 'single' == $row['marStatus']) ? 'selected' : ''; ?>>Single</option>
+                                 <option value="married" <?php echo ($update && 'married' == $row['marStatus']) ? 'selected' : ''; ?>>Married</option>
+                                 <option value="divorced" <?php echo ($update && 'divorced' == $row['marStatus']) ? 'selected' : ''; ?>>Divorced</option>
+                                 <option value="widow" <?php echo ($update && 'widow' == $row['marStatus']) ? 'selected' : ''; ?>>Widow</option>
+                                 <option value="widower" <?php echo ($update && 'widower' == $row['marStatus']) ? 'selected' : ''; ?>>Widower</option>
                               </select>
                            </div>
                         </div>
@@ -328,13 +333,13 @@
                               <div class="row">
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-0">
-                                    <input type="checkbox" name="comm[]" id="Communication-0" value="1">
+                                    <input type="checkbox" name="comm[]" id="Communication-0" value="1" <?php echo ($update) ? ($row['commId'] == '1' ? "checked=checked" : '') : "checked=checked"; ?>>
                                     E-Mail
                                     </label>
                                  </div>
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-1">
-                                    <input type="checkbox" name="comm[]" id="Communication-1" value="2">
+                                    <input type="checkbox" name="comm[]" id="Communication-1" value="2" <?php echo ($update) ? ($row['commId'] == '2' ? "checked=checked" : '') : "checked=checked"; ?>>
                                     Message
                                     </label>
                                  </div>
@@ -342,13 +347,13 @@
                               <div class="row">
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-2">
-                                    <input type="checkbox" name="comm[]" id="Communication-2" value="3">
+                                    <input type="checkbox" name="comm[]" id="Communication-2" value="3" <?php echo ($update) ? ($row['commId'] == '3' ? "checked=checked" : '') : "checked=checked"; ?>>
                                     Phone
                                     </label>
                                  </div>
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-3">
-                                    <input type="checkbox" name="comm[]" id="Communication-3" value="4">
+                                    <input type="checkbox" name="comm[]" id="Communication-3" value="4" <?php echo ($update) ? ($row['commId'] == '4' ? "checked=checked" : '') : "checked=checked"; ?>>
                                     Any
                                     </label>
                                  </div>
