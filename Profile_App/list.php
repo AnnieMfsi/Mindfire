@@ -1,48 +1,38 @@
 <?php 
-   $host = 'localhost';
-   $uName = 'root';
-   $password = 'mindfire';
-   $database = 'RegistrationInfo';  
+   require_once("config/dbConnect.php");   
+      // Delete a row
+         if(isset($_GET['delete'])){
+         $empId = $_GET['delete'];
+         $deleteQuery1 = "DELETE
+                  FROM Address
+                  WHERE Address.empId = $empId";
+         $deleteQuery2 = "DELETE
+                  FROM Employee
+                  WHERE Employee.empId = $empId";   
+         if (mysqli_query($conn, $deleteQuery1) && mysqli_query($conn, $deleteQuery2)) {
+         header('Location:list.php');
+         }             
+      
+      }  
+      
+      
+      //query to fetch data from database
+      
+            $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
+                              CONCAT(Residence.street, Residence.city , Residence.zip, Residence.state ) AS Res,
+                              CONCAT(Office.street, Office.city , Office.zip, Office.state ) AS Ofc,
+                              Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
+                              Employee.employer AS Employer, Employee.commId AS Communication, Employee.note AS Note
    
-   //making and checking connection
-   $conn = mysqli_connect($host, $uName, $password, $database);
-   if (mysqli_connect_error($conn)) {
-      die('Failed to connect to database' .mysqli_connect_error());
-     }
-   
-   // Delete a row
-      if(isset($_GET['delete'])){
-      $empId = $_GET['delete'];
-      $deleteQuery1 = "DELETE
-               FROM Address
-               WHERE Address.empId = $empId";
-      $deleteQuery2 = "DELETE
-               FROM Employee
-               WHERE Employee.empId = $empId";   
-      if (mysqli_query($conn, $deleteQuery1) && mysqli_query($conn, $deleteQuery2)) {
-      header('Location:list.php');
-      }             
-   
-   }  
-   
-   
-   //query to fetch data from database
-   
-         $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
-                           CONCAT(Residence.street, Residence.city , Residence.zip, Residence.state ) AS Res,
-                           CONCAT(Office.street, Office.city , Office.zip, Office.state ) AS Ofc,
-                           Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
-                           Employee.employer AS Employer, Employee.commId AS Communication, Employee.note AS Note
-
-                        FROM Employee 
-                        JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-                        JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
-   
-   
-   
-   $result = mysqli_query($conn, $displayQuery);
-   
-   ?>
+                           FROM Employee 
+                           JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
+                           JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
+      
+      
+      
+      $result = mysqli_query($conn, $displayQuery);
+      
+      ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -83,6 +73,7 @@
             <tbody>
             <thead>
                <tr>
+               <!-- column headers -->
                   <th>Emp Id</th>
                   <th>Name</th>
                   <th>Email</th>
@@ -100,20 +91,24 @@
                   <th>Delete</th>
                </tr>
             </thead>
-            <?php 
+
+
+            <?php
+            //continue till the last record 
                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { ?>
             <tr>
                <?php foreach ($row as $key => $value) {
-                     
-                      ?>
+                  ?>
                <td> <?php 
                   echo $value
                   ?> </td>
                <?php } ?>
+               <!--edit graphic-->
                <td><a href="registration.php?edit=<?php echo $row['EmpID']; ?>">
                   <span class="glyphicon glyphicon-pencil"></span>
                   </a>
                </td>
+               <!--delete graphic-->
                <td><a href="list.php?delete=<?php echo $row['EmpID']; ?>">
                   <span class="glyphicon glyphicon-remove"></span>
                   </a>
@@ -124,6 +119,7 @@
          </table>
       </div>
       <!-- /.container -->
+      
       <!-- jQuery -->
       <script src="js/jquery.js"></script>
       <!-- Bootstrap Core JavaScript -->

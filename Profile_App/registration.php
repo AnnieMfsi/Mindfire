@@ -1,29 +1,15 @@
 <?php
-   ini_set('display_errors', 1);//for errors to be printed on screen for user or not
-      ini_set('display_startup_errors', 1);//for php start up errors during debugging
-      error_reporting(E_ALL);
+   require_once("config/dbConnect.php");
    
+   //if(isset($_COOKIE['errors'])) {
+      //  echo "Value is: " . $_COOKIE['errors'];} 
    
-   if(isset($_COOKIE['errors'])) {
-        echo "Value is: " . $_COOKIE['errors'];
-   } 
-   
+
+   //check if edit clicked, update flag value
    if(isset($_GET['edit'])){
-   	$update = 1;
-   	$empId = $_GET['edit'];
+      $update = 1;
+      $empId = $_GET['edit'];
    
-   
-   
-   $host = 'localhost';
-   $uName = 'root';
-   $password = 'mindfire';
-   $database = 'RegistrationInfo';  
-   
-   //making and checking connection
-   $conn = mysqli_connect($host, $uName, $password, $database);
-   if (mysqli_connect_error($conn)) {
-     die('Failed to connect to database' .mysqli_connect_error());
-    }
    
     $selectQuery = "SELECT Employee.empId, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
                           Residence.street AS resStreet, Residence.city AS resCity , Residence.zip AS resZip, Residence.state AS resState,
@@ -37,11 +23,11 @@
    
    $result  = mysqli_query($conn, $selectQuery);
    $row = mysqli_fetch_assoc($result);
-   	print_r($row); echo '<br>';
+      print_r($row); echo '<br>';
       }
-
-    else {
-    	$update = 0;
+   
+    else {//flag value is 0
+      $update = 0;
     }
    
    
@@ -95,15 +81,17 @@
                </div>
                <form action="add.php" method="POST" class="form-horizontal">
                   <fieldset>
-                     <!-- Form Name -->
+                     <!-- Form Name-->
                      <?php 
+                        //if the form is for updating
                         if (1 == $update) {
-                        	?>
+                           ?>
                      <h1>Update Form</h1>
                      <?php
                         }
-                        	else{
-                        		?>
+                           else{//if it is a new registration form
+                              ?>
+
                      <h1>Registration Form</h1>
                      <?php
                         }
@@ -111,6 +99,7 @@
                      <div class="well">
                         <h3>Personal Details</h3>
 
+                        <!-- hidden fields to fetch flag value and employee id -->
                         <input type="hidden" name="checkUpdate" value="<?php echo $update; ?>">
                         <input type="hidden" name="employeeId" value="<?php echo ($update) ? $row['empId'] : 0; ?>">
 
@@ -119,6 +108,8 @@
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">Name</label>
                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
+
+                           <!-- check and assign the value if it is new or update form -->
                               <input type="text" name = "title" class="form-control" id="inputTitle" placeholder="Mr/Ms" value="<?php echo ($update) ? $row['title'] : ''; ?>">
                            </div>
                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -131,25 +122,34 @@
                               <input type="text" name = "lastName" class="form-control" id="inputLastName" placeholder="Last Name" value="<?php echo ($update) ? $row['lastName'] : ''; ?>">
                            </div>
                         </div>
+
+
                         <!-- Email input-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="textinput">Email</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <!-- check and assign the value if it is new or update form -->
                               <input id="textinput" name="email" type="text" placeholder="name@email.com" class="form-control input-md" value="<?php echo ($update) ? $row['email'] : ''; ?>">
                            </div>
                         </div>
+
+
                         <!-- phone number input-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="number">Mobile</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <!-- check and assign the value if it is new or update form -->
                               <input id="number" name="phone" type="text" placeholder="9999999999" class="form-control input-md" value="<?php echo ($update) ? $row['phone'] : ''; ?>">
                            </div>
                         </div>
+
+
                         <!--radio button for gender-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="gender">Gender</label>
                            <div class="col-md-4"> 
                               <label class="radio-inline" for="gender-0">
+                              <!-- check and select the radio button if it is new or update form -->
                               <input type="radio" name="gender" id="gender-0" value="Male" <?php echo ($update) ? ($row['gender'] == 'male' ? "checked=checked" : '') : "checked=checked"; ?> >
                               Male
                               </label> 
@@ -163,15 +163,20 @@
                               </label>
                            </div>
                         </div>
+
+
                         <!--date picker for DOB-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">D.O.B</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <!-- check and assign the value if it is new or update form -->
                               <input type='date'  name="dob" class="form-control" value="<?php echo ($update) ? $row['dateOfBirth'] : ''; ?>"/>
                            </div>
                         </div>
                      </div>
                      <hr>
+
+
                      <div class="well">
                         <h3>Address Details</h3>
                         <!-- Address input-->
@@ -179,6 +184,8 @@
                         <div class="row form-group address">
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                               <label for="Address">Residence Address</label> 
+
+                              <!-- check and assign the value if it is new or update form -->
                               <!--Street Name-->
                               <input id="Address" name="resStreet" type="text" placeholder="Street" class="form-control input-md address" value=" <?php echo ($update) ? $row['resStreet'] : ''; ?> ">
                               <!-- City-->
@@ -186,8 +193,8 @@
                               <!-- ZIp -->
                               <input id="zip" name="resZip" type="text" placeholder="Zip" class="form-control input-md address" value=" <?php echo ($update) ? $row['resZip'] : ''; ?> ">
                               <!-- Select State -->
-                            <select id="state" name="resState" class="form-control address">
-                            <option value="0">Select State</option>
+                              <select id="state" name="resState" class="form-control address">
+                                 <option value="0">Select State</option>
                                  <option value="Andaman and Nicobar Islands" <?php echo ($update && 'Andaman and Nicobar Islands' == $row['resState']) ? 'selected' : ''; ?>>Andaman and Nicobar Islands</option>
                                  <option value="Andhra Pradesh" <?php echo ($update && 'Andhra Pradesh' == $row['resState']) ? 'selected' : ''; ?>>Andhra Pradesh</option>
                                  <option value="Arunachal Pradesh" <?php echo ($update && 'Arunachal Pradesh' == $row['resState']) ? 'selected' : ''; ?>>Arunachal Pradesh</option>
@@ -227,6 +234,7 @@
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                               <label for="Address">Office Address</label>
+                              <!-- check and assign the value if it is new or update form -->
                               <!--Street Name-->
                               <input id="OfcAddress" name="ofcAddress" type="text" placeholder="Street" class="form-control input-md address" value= " <?php echo ($update) ? $row['ofcStreet'] : ''; ?> ">
                               <!-- City-->                          
@@ -276,11 +284,13 @@
                         </div>
                      </div>
                      <div class="well">
+
                         <h3>Other Details</h3>
                         <!--Marital Status-->
                         <div class="form-group">
                            <label class= "col-lg-2 col-md-2 col-sm-2 col-xs-12" for="marStatus">Marital Status</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <!-- check and select from drop down if it is new or update form -->
                               <select id="marStatus" name="marStatus" class="form-control" >
                                  <option value="0">Status</option>
                                  <option value="single" <?php echo  ($update && 'single' == $row['marStatus']) ? 'selected' : ''; ?>>Single</option>
@@ -297,6 +307,7 @@
                            Employement Status</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <div class="row">
+                              <!-- check and select the radio button if it is new or update form -->
                                  <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label><input type="radio" name="empStatus" value="employed" <?php echo ($update) ? ($row['empStatus'] == 'employed' ? "checked=checked" : '') : "checked=checked"; ?>>Employed</label>
                                  </div>
@@ -317,6 +328,7 @@
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Employer</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           <!-- check and assign value if it is new or update form -->
                               <input id="textinput" name="employer" type="text" class="form-control input-md" value=" <?php echo ($update) ? $row['employer'] : ''; ?> ">
                            </div>
                         </div>
@@ -331,6 +343,7 @@
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Communication">Communicate via</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <div class="row">
+                              <!-- check and select check box if it is new or update form -->
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-0">
                                     <input type="checkbox" name="comm[]" id="Communication-0" value="1" <?php echo ($update) ? ($row['commId'] == '1' ? "checked=checked" : '') : "checked=checked"; ?>>
@@ -363,22 +376,25 @@
                         <!-- Textarea -->
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Note">Note</label>
-                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">                     
+                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">   
+                           <!-- check and display note if it is new or update form -->                  
                               <textarea class="form-control" id="Note" name="note" rows="6" placeholder="Write something about yourself"> <?php echo ($update) ? $row['note'] : ''; ?></textarea>
                            </div>
                         </div>
                         <div class="row text-center">
                            <?php 
                               if (1 == $update) {
-                              	?>
+                                 //if update form, update and clear button
+                                 ?>
                            <button type="submit" class="btn btn-success" role="button">Update
                            </button>
                            <button type="reset" class="btn btn-primary" role="button">Clear
                            </button> 
                            <?php
                               }
-                              	else{
-                              		?>
+                                 else{
+                                    //if new form, submit and reset button
+                                    ?>
                            <button type="submit" class="btn btn-success" role="button">Submit
                            </button>
                            <button type="reset" class="btn btn-primary" role="button">Reset
