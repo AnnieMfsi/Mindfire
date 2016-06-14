@@ -1,28 +1,43 @@
 <?php 
-   require_once("config/dbConnect.php");   
+   require_once("config/dbConnect.php");
+   include("ImagePath.php");  
       // Delete a row
          if(isset($_GET['delete'])){
-         $empId = $_GET['delete'];
-         $deleteQuery1 = "DELETE
-                  FROM Address
-                  WHERE Address.empId = $empId";
-         $deleteQuery2 = "DELETE
-                  FROM Employee
-                  WHERE Employee.empId = $empId";   
-         if (mysqli_query($conn, $deleteQuery1) && mysqli_query($conn, $deleteQuery2)) {
-            header('Location:list.php');
-         }             
+            $empId = $_GET['delete'];
+
+            // Extract image name and delete it
+            $imgQuery = "SELECT image FROM Employee WHERE Employee.empId = $empId";
+            $img = mysqli_fetch_array(mysqli_query($conn, $imgQuery));
+
+            
+
+            
+            unlink(ImagePath.$img['image']);
+
+            $deleteQuery1 = "DELETE
+                     FROM Address
+                     WHERE Address.empId = $empId";
+            $deleteQuery2 = "DELETE
+                     FROM Employee
+                     WHERE Employee.empId = $empId"; 
+
+            $delResult1 = mysqli_query($conn, $deleteQuery1); 
+            $delResult2 = mysqli_query($conn, $deleteQuery2); 
+
+            
+            if ($delResult1 && $delResult2) {
+               header('Location:list.php');
+            }
+         }
       
-      }  
       
-      
-      //query to fetch data from database
+      // Query to fetch data from database
       
             $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
                               CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', Residence.state ) AS Res,
                               CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state ) AS Ofc,
                               Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
-                              Employee.employer AS Employer, Employee.commId AS Communication, Employee.note AS Note
+                              Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, Employee.note AS Note
    
                            FROM Employee 
                            JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
@@ -65,7 +80,7 @@
                </li>
             </ul>
          </div>
-         <!-- /.container -->
+         <!-- Container -->
       </nav>
       <!-- Page Content -->
       <div class="container-fluid">
@@ -86,6 +101,7 @@
                   <th>Employement Status</th>
                   <th>Employer</th>
                   <th>Communication</th>
+                  <th>Image</th>
                   <th>Note</th>
                   <th>Edit</th>
                   <th>Delete</th>
@@ -95,7 +111,7 @@
 
             <?php
             $i = 0;
-            //continue till the last record 
+            // Continue till the last record 
                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                   ++$i;?>
 
@@ -124,12 +140,12 @@
                   }
                   ?> </td>
                <?php } ?>
-               <!--edit graphic-->
+               <!--Edit graphic-->
                <td><a href="registration.php?edit=<?php echo $row['EmpID']; ?>">
                   <span class="glyphicon glyphicon-pencil"></span>
                   </a>
                </td>
-               <!--delete graphic-->
+               <!--Delete graphic-->
                <td><a href="list.php?delete=<?php echo $row['EmpID']; ?>">
                   <span class="glyphicon glyphicon-remove"></span>
                   </a>
@@ -139,9 +155,9 @@
             </tbody>
          </table>
       </div>
-      <!-- /.container -->
+      <!-- Container -->
 
-      <!-- jQuery -->
+      <!-- JQuery -->
       <script src="js/jquery.js"></script>
       <!-- Bootstrap Core JavaScript -->
       <script src="js/bootstrap.min.js"></script>

@@ -1,5 +1,6 @@
 <?php
     require_once("config/dbConnect.php");
+    include("ImagePath.php");
 
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $firstName = isset($_POST['firstName']) ? $_POST['firstName'] : '';
@@ -25,15 +26,37 @@
         $communication = (isset($_POST['comm']) && !empty($_POST['comm'])) ? implode(", " , $_POST['comm']) : '';
         $note = isset($_POST['note']) ? $_POST['note'] : '';
         $update = (isset($_POST['checkUpdate']) && 1 == $_POST['checkUpdate']) ? 1 : 0;
-        $employeeIdUpdate = isset($_POST['employeeId']) ? $_POST['employeeId'] : '';      
+        $employeeIdUpdate = isset($_POST['employeeId']) ? $_POST['employeeId'] : ''; 
+
+        // Image upload
+        $name = $_FILES['image']['name']; //file name uploaded
+        $file_size = $_FILES['image']['size'];
+        $file_tmp = $_FILES['image']['tmp_name'];
+        $file_type = $_FILES['image']['type'];
+        //$file_ext = strtolower(end(explode('.',$_FILES['image']['name'])));
+
+        echo "$name". '<br />'. "$file_size". '<br />';
+
+        $extensions = array("jpeg","jpg","png");
+        // If(in_array($file_ext,$extensions) === false) {
+         // $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+        //}
+
+        $maxSize = 2097152;
+
+        // Move image to desired folder
+        if(isset($name) && !empty($name)){
+            move_uploaded_file($file_tmp, ImagePath.$name);
+        }
+        
 
        if(1 == $update){
    
-         //update details
+         // Update details
         $empUpdate = "UPDATE Employee
             SET title = '$title', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', dateOfBirth = '$dob',
                                  gender = '$gender', phone = '$phone', email = '$email', maritalStatus = '$marStatus', empStatus = '$empStatus',
-                                 commId = '$communication', employer = '$employer', note = '$note'
+                                 commId = '$communication', employer = '$employer', image = '$name', note = '$note'
                              WHERE empId = $employeeIdUpdate";
          $empOfcUpdate = "UPDATE Address
                            SET street = '$ofcStreet', city = '$ofcCity', zip = '$ofcZip', state = '$ofcState'
@@ -56,14 +79,14 @@
          
    
          // Insert personal details
-        $employeeInsert = "INSERT INTO Employee(title, firstName, middleName, lastName, dateOfBirth, gender, phone, email, maritalStatus, empStatus, commId, note, employer)
-         VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$empStatus', '$communication', '$note', '$employer')";
+        $employeeInsert = "INSERT INTO Employee(title, firstName, middleName, lastName, dateOfBirth, gender, phone, email, maritalStatus, empStatus, commId, image, note, employer)
+         VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$empStatus', '$communication','$name', '$note', '$employer')";
 
 
          $result  = mysqli_query($conn, $employeeInsert);
    
          $employeeId = mysqli_insert_id($conn);
-         // writing sql query to insert personal details
+         // Writing sql query to insert personal details
         $address = "INSERT INTO Address(addressType, street, city, zip, state, empId) 
           values('office', '$ofcStreet', '$ofcCity', '$ofcZip', '$ofcState', '$employeeId'), ('residence', '$resStreet', '$resCity', '$resZip', '$resState', '$employeeId')";
         $AddressResult = mysqli_query($conn, $address);
@@ -74,7 +97,7 @@
          if (! $result) {
            echo "Insertion failed " . mysql_error();
            setcookie('errors', 'fail');
-           header('Location:registration.php');
+           //header('Location:registration.php');
          }
        }
    
@@ -83,5 +106,5 @@
          //Print auto-generated id
          echo "New record has id: " . mysqli_insert_id($conn);
    
-         header('Location:list.php');
+         //header('Location:list.php');
       ?>

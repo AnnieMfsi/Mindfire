@@ -4,12 +4,10 @@
    //if(isset($_COOKIE['errors'])) {
       //  echo "Value is: " . $_COOKIE['errors'];} 
    
-
    //check if edit clicked, update flag value
    if(isset($_GET['edit'])) {
       $update = 1;
       $empId = $_GET['edit'];
-
    $selectQuery = "SELECT Employee.empId, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
         Residence.street AS resStreet, Residence.city AS resCity , Residence.zip AS resZip, Residence.state AS resState,
         Office.street AS ofcStreet, Office.city AS ofcCity , Office.zip AS ofcZip, Office.state AS ofcState,
@@ -29,6 +27,27 @@
       //flag value is 0
       $update = 0;
     }
+
+
+    // Form Validation
+   // Define variables for each field and set to empty values
+   $title = $firstName = $lastName = $middleName = $email = $gender = $dob = $resStreet = $resCity = $resZip = $resState = $ofcStreet = $ofcCity = $ofcZip = $ofcState = $marStatus = $empStatus = $employer = $image = $commVia = $note = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $name = test_input($_POST["name"]);
+  $email = test_input($_POST["email"]);
+  $website = test_input($_POST["website"]);
+  $comment = test_input($_POST["comment"]);
+  $gender = test_input($_POST["gender"]);
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
    
    ?>
 <!DOCTYPE html>
@@ -75,7 +94,7 @@
                   <!-- some error occured. -->
                   <?php //} ?> 
                </div>
-               <form action="add.php" method="POST" class="form-horizontal">
+               <form action="add.php" method="POST" class="form-horizontal" enctype="multipart/form-data">
                   <fieldset>
                      <!-- Form Name-->
                      <?php 
@@ -333,7 +352,7 @@
                         <!-- Image Upload -->
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Upload Image</label>  
-                           <label class="btn btn-file col-lg-4 col-md-4 col-sm-4 col-xs-12" name= "image"><input type="file">
+                           <label class="btn btn-file col-lg-4 col-md-4 col-sm-4 col-xs-12" ><input type="file" name="image"/>
                            </label>
                         </div>
 
