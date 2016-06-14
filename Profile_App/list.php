@@ -10,7 +10,7 @@
                   FROM Employee
                   WHERE Employee.empId = $empId";   
          if (mysqli_query($conn, $deleteQuery1) && mysqli_query($conn, $deleteQuery2)) {
-         header('Location:list.php');
+            header('Location:list.php');
          }             
       
       }  
@@ -19,8 +19,8 @@
       //query to fetch data from database
       
             $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
-                              CONCAT(Residence.street, Residence.city , Residence.zip, Residence.state ) AS Res,
-                              CONCAT(Office.street, Office.city , Office.zip, Office.state ) AS Ofc,
+                              CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', Residence.state ) AS Res,
+                              CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state ) AS Ofc,
                               Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
                               Employee.employer AS Employer, Employee.commId AS Communication, Employee.note AS Note
    
@@ -74,7 +74,7 @@
             <thead>
                <tr>
                <!-- column headers -->
-                  <th>Emp Id</th>
+                  <th>Serial No.</th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
@@ -94,13 +94,34 @@
 
 
             <?php
+            $i = 0;
             //continue till the last record 
-               while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { ?>
+               while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                  ++$i;?>
+
             <tr>
                <?php foreach ($row as $key => $value) {
                   ?>
                <td> <?php 
-                  echo $value
+
+               if($key == 'EmpID'){
+                  $value = $i;
+
+               }
+
+               if ($key == 'Communication') {
+                  $commQuery = "SELECT CommMedium FROM  `Communication` WHERE  `CommId` IN ($value)";
+                  $commResult = mysqli_query($conn, $commQuery);
+                  while ($commRow = mysqli_fetch_array($commResult, MYSQLI_ASSOC)){
+                        foreach ($commRow as $key => $value) {
+                           echo $value . '<br /> ';
+                        }
+                     }
+
+               }
+                  else {
+                     echo $value;
+                  }
                   ?> </td>
                <?php } ?>
                <!--edit graphic-->
@@ -119,7 +140,7 @@
          </table>
       </div>
       <!-- /.container -->
-      
+
       <!-- jQuery -->
       <script src="js/jquery.js"></script>
       <!-- Bootstrap Core JavaScript -->

@@ -1,5 +1,6 @@
 <?php
-   require_once("config/dbConnect.php");   
+    require_once("config/dbConnect.php");
+
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $firstName = isset($_POST['firstName']) ? $_POST['firstName'] : '';
         $middleName = isset($_POST['middleName']) ? $_POST['middleName'] : '';
@@ -23,21 +24,14 @@
         $image = isset($_POST['image']) ? $_POST['image'] : '';
         $communication = (isset($_POST['comm']) && !empty($_POST['comm'])) ? implode(", " , $_POST['comm']) : '';
         $note = isset($_POST['note']) ? $_POST['note'] : '';
-        $update = isset($_POST['checkUpdate']) ? 1 : 0;
-        $employeeIdUpdate = isset($_POST['employeeId']) ? $_POST['employeeId'] : '';
-      
-      
-   
-        echo "$update";
-        echo '<br/>' . "$employeeIdUpdate";
-   
-        
-   
+        $update = (isset($_POST['checkUpdate']) && 1 == $_POST['checkUpdate']) ? 1 : 0;
+        $employeeIdUpdate = isset($_POST['employeeId']) ? $_POST['employeeId'] : '';      
+
        if(1 == $update){
    
          //update details
-         $empUpdate = "UPDATE Employee
-                             SET title = '$title', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', dateOfBirth = '$dob',
+        $empUpdate = "UPDATE Employee
+            SET title = '$title', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', dateOfBirth = '$dob',
                                  gender = '$gender', phone = '$phone', email = '$email', maritalStatus = '$marStatus', empStatus = '$empStatus',
                                  commId = '$communication', employer = '$employer', note = '$note'
                              WHERE empId = $employeeIdUpdate";
@@ -64,23 +58,22 @@
          // Insert personal details
         $employeeInsert = "INSERT INTO Employee(title, firstName, middleName, lastName, dateOfBirth, gender, phone, email, maritalStatus, empStatus, commId, note, employer)
          VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$empStatus', '$communication', '$note', '$employer')";
-      
-         echo $employeeInsert;
-   
+
+
          $result  = mysqli_query($conn, $employeeInsert);
    
          $employeeId = mysqli_insert_id($conn);
          // writing sql query to insert personal details
-         $ofcAddress = "INSERT INTO Address(addressType, street, city, zip, state, empId) values('office', '$ofcStreet', '$ofcCity', '$ofcZip', '$ofcState', '$employeeId') ";
-         $ofcAddressResult = mysqli_query($conn, $ofcAddress);
-   
-         $resAddress = "INSERT INTO Address(addressType, street, city, zip, state, empId) values('residence', '$resStreet', '$resCity', '$resZip', '$resState', '$employeeId')";
-         $resAddressResult = mysqli_query($conn, $resAddress);
+        $address = "INSERT INTO Address(addressType, street, city, zip, state, empId) 
+          values('office', '$ofcStreet', '$ofcCity', '$ofcZip', '$ofcState', '$employeeId'), ('residence', '$resStreet', '$resCity', '$resZip', '$resState', '$employeeId')";
+        $AddressResult = mysqli_query($conn, $address);
+
+        echo $employeeInsert;
+        echo $address;
    
          if (! $result) {
-           echo "Insertion failed " . mysql_error(); //exit();
+           echo "Insertion failed " . mysql_error();
            setcookie('errors', 'fail');
-           print_r($_COOKIE);
            header('Location:registration.php');
          }
        }
@@ -91,6 +84,4 @@
          echo "New record has id: " . mysqli_insert_id($conn);
    
          header('Location:list.php');
-      
-      
       ?>

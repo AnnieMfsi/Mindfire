@@ -6,33 +6,29 @@
    
 
    //check if edit clicked, update flag value
-   if(isset($_GET['edit'])){
+   if(isset($_GET['edit'])) {
       $update = 1;
       $empId = $_GET['edit'];
-   
-   
-    $selectQuery = "SELECT Employee.empId, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
-                          Residence.street AS resStreet, Residence.city AS resCity , Residence.zip AS resZip, Residence.state AS resState,
-                          Office.street AS ofcStreet, Office.city AS ofcCity , Office.zip AS ofcZip, Office.state AS ofcState,
-                          Employee.maritalStatus, Employee.empStatus, 
-                          Employee.employer, Employee.commId, Employee.note
-                       FROM Employee 
-                       JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-                       JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'
-                       HAVING EmpID = $empId";
+
+   $selectQuery = "SELECT Employee.empId, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
+        Residence.street AS resStreet, Residence.city AS resCity , Residence.zip AS resZip, Residence.state AS resState,
+        Office.street AS ofcStreet, Office.city AS ofcCity , Office.zip AS ofcZip, Office.state AS ofcState,
+        Employee.maritalStatus, Employee.empStatus, 
+        Employee.employer, Employee.commId, Employee.note
+     FROM Employee 
+     JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
+     JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'
+     HAVING EmpID = $empId";
    
    $result  = mysqli_query($conn, $selectQuery);
    $row = mysqli_fetch_assoc($result);
       print_r($row); echo '<br>';
       }
    
-    else {//flag value is 0
+    else {
+      //flag value is 0
       $update = 0;
     }
-   
-   
-   
-   
    
    ?>
 <!DOCTYPE html>
@@ -75,9 +71,9 @@
             <div class="col-lg-12">
                <div class="error">
                   <?php 
-                     if (isset($_COOKIE)) { ?>
-                  some error occured.
-                  <?php } ?> 
+                     //if (isset($_COOKIE)) { ?>
+                  <!-- some error occured. -->
+                  <?php //} ?> 
                </div>
                <form action="add.php" method="POST" class="form-horizontal">
                   <fieldset>
@@ -104,7 +100,7 @@
                         <input type="hidden" name="employeeId" value="<?php echo ($update) ? $row['empId'] : 0; ?>">
 
 
-                        <!--Feilds for name-->
+                        <!-- Feilds for name-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">Name</label>
                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
@@ -187,11 +183,11 @@
 
                               <!-- check and assign the value if it is new or update form -->
                               <!--Street Name-->
-                              <input id="Address" name="resStreet" type="text" placeholder="Street" class="form-control input-md address" value=" <?php echo ($update) ? $row['resStreet'] : ''; ?> ">
+                              <input id="Address" name="resStreet" type="text" placeholder="Street" class="form-control input-md address" value="<?php echo ($update) ? $row['resStreet'] : '';?>">
                               <!-- City-->
-                              <input id="city" name="resCity" type="text" placeholder="city" class="form-control input-md address" value=" <?php echo ($update) ? $row['resCity'] : ''; ?> ">
+                              <input id="city" name="resCity" type="text" placeholder="city" class="form-control input-md address" value="<?php echo ($update) ? $row['resCity'] : '';?>">
                               <!-- ZIp -->
-                              <input id="zip" name="resZip" type="text" placeholder="Zip" class="form-control input-md address" value=" <?php echo ($update) ? $row['resZip'] : ''; ?> ">
+                              <input id="zip" name="resZip" type="text" placeholder="Zip" class="form-control input-md address" value="<?php echo ($update) ? $row['resZip'] : ''; ?>">
                               <!-- Select State -->
                               <select id="state" name="resState" class="form-control address">
                                  <option value="0">Select State</option>
@@ -236,15 +232,15 @@
                               <label for="Address">Office Address</label>
                               <!-- check and assign the value if it is new or update form -->
                               <!--Street Name-->
-                              <input id="OfcAddress" name="ofcAddress" type="text" placeholder="Street" class="form-control input-md address" value= " <?php echo ($update) ? $row['ofcStreet'] : ''; ?> ">
+                              <input id="OfcAddress" name="ofcStreet" type="text" placeholder="Street" class="form-control input-md address" value= "<?php echo ($update) ? $row['ofcStreet'] : '';?>">
                               <!-- City-->                          
-                              <input id="OfcCity" name="ofcCity" type="text" placeholder="city" class="form-control input-md address" value= " <?php echo ($update) ? $row['ofcCity'] : ''; ?> ">
+                              <input id="OfcCity" name="ofcCity" type="text" placeholder="city" class="form-control input-md address" value= "<?php echo ($update) ? $row['ofcCity'] : '';?>">
                               <!-- Zip-->
-                              <input id="OfcZip" name="ofcZip" type="text" placeholder="Zip" class="form-control input-md address" value= " <?php echo ($update) ? $row['ofcZip'] : ''; ?> ">
+                              <input id="OfcZip" name="ofcZip" type="text" placeholder="Zip" class="form-control input-md address" value= "<?php echo ($update) ? $row['ofcZip'] : '';?>">
                               <!-- Select State -->
-                              <select id="OfcState" name="ofcState" class="form-control address" value=" <?php echo ($update) ? $row['ofcState'] : ''; ?> ">
+                              <select id="OfcState" name="ofcState" class="form-control address" value="<?php echo ($update) ? $row['ofcState'] : '';?> ">
                                  <option value="0">Select State</option>
-                                 <option value="Andaman and Nicobar Islands" <?php echo ($update && 'Andaman and Nicobar Islands' == $row['ofcState']) ? 'selected' : ''; ?>>Andaman and Nicobar Islands</option>
+                                 <option value="Andaman and Nicobar Islands" <?php echo ($update && 'Andaman and Nicobar Islands' == $row['ofcState']) ? 'selected' : '';?>>Andaman and Nicobar Islands</option>
                                  <option value="Andhra Pradesh"<?php echo ($update && 'Andhra Pradesh' == $row['ofcState']) ? 'selected' : ''; ?>>Andhra Pradesh</option>
                                  <option value="Arunachal Pradesh"<?php echo ($update && 'Arunachal Pradesh' == $row['ofcState']) ? 'selected' : ''; ?>>Arunachal Pradesh</option>
                                  <option value="Assam"<?php echo ($update && 'Assam' == $row['ofcState']) ? 'selected' : ''; ?>>Assam</option>
@@ -283,8 +279,8 @@
                            </div>
                         </div>
                      </div>
-                     <div class="well">
 
+                     <div class="well">
                         <h3>Other Details</h3>
                         <!--Marital Status-->
                         <div class="form-group">
@@ -312,7 +308,7 @@
                                     <label><input type="radio" name="empStatus" value="employed" <?php echo ($update) ? ($row['empStatus'] == 'employed' ? "checked=checked" : '') : "checked=checked"; ?>>Employed</label>
                                  </div>
                                  <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label><input type="radio" name="empStatus" value="umemployed" <?php echo (($update) && $row['empStatus'] == 'umemployed') ? "checked=checked" : ''; ?>>Umemployed</label>
+                                    <label><input type="radio" name="empStatus" value="unemployed" <?php echo (($update) && $row['empStatus'] == 'unemployed') ? "checked=checked" : ''; ?>>Unemployed</label>
                                  </div>
                               </div>
                               <div class="row">
@@ -332,13 +328,19 @@
                               <input id="textinput" name="employer" type="text" class="form-control input-md" value=" <?php echo ($update) ? $row['employer'] : ''; ?> ">
                            </div>
                         </div>
+
+
                         <!-- Image Upload -->
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Upload Image</label>  
                            <label class="btn btn-file col-lg-4 col-md-4 col-sm-4 col-xs-12" name= "image"><input type="file">
                            </label>
                         </div>
+
+
+
                         <!-- Communication Medium -->
+                        <?php $communicationIds = isset($row['commId']) ? explode(',', $row['commId']) : []; ?>
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Communication">Communicate via</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -346,13 +348,13 @@
                               <!-- check and select check box if it is new or update form -->
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-0">
-                                    <input type="checkbox" name="comm[]" id="Communication-0" value="1" <?php echo ($update) ? ($row['commId'] == '1' ? "checked=checked" : '') : "checked=checked"; ?>>
+                                    <input type="checkbox" name="comm[]" id="Communication-0" value="1" <?php echo ($update) ? (in_array('1', $communicationIds) ? "checked=checked" : '') : "checked=checked";?>>
                                     E-Mail
                                     </label>
                                  </div>
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-1">
-                                    <input type="checkbox" name="comm[]" id="Communication-1" value="2" <?php echo ($update) ? ($row['commId'] == '2' ? "checked=checked" : '') : "checked=checked"; ?>>
+                                    <input type="checkbox" name="comm[]" id="Communication-1" value="2" <?php echo (($update) && (in_array('1', $communicationIds)) ? "checked=checked" : ''); ?>>
                                     Message
                                     </label>
                                  </div>
@@ -360,13 +362,13 @@
                               <div class="row">
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-2">
-                                    <input type="checkbox" name="comm[]" id="Communication-2" value="3" <?php echo ($update) ? ($row['commId'] == '3' ? "checked=checked" : '') : "checked=checked"; ?>>
+                                    <input type="checkbox" name="comm[]" id="Communication-2" value="3" <?php echo (($update) && (in_array('1', $communicationIds)) ? "checked=checked" : '');?>>
                                     Phone
                                     </label>
                                  </div>
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-3">
-                                    <input type="checkbox" name="comm[]" id="Communication-3" value="4" <?php echo ($update) ? ($row['commId'] == '4' ? "checked=checked" : '') : "checked=checked"; ?>>
+                                    <input type="checkbox" name="comm[]" id="Communication-3" value="4" <?php echo (($update) && (in_array('1', $communicationIds)) ? "checked=checked" : '');?>>
                                     Any
                                     </label>
                                  </div>

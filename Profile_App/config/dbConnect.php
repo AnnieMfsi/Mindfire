@@ -4,22 +4,22 @@
     error_reporting(E_ALL);
 
 
-    //initialize the connection parameters
+    // Initialize the connection parameters
 
     $host = 'localhost';
     $uName = 'root';
     $password = 'mindfire';
     $database = 'RegistrationInfo';
 
-    // making connection
+    // Making connection
     $conn = mysqli_connect($host, $uName, $password, $database);
 
     //checking connection
     if (mysqli_connect_error($conn)) {
-    die('Failed to connect to database' .mysqli_connect_error());
+      die('Failed to connect to database' .mysqli_connect_error());
     }
 
 
 
-    
+
     ?>
