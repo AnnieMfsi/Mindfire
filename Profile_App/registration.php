@@ -34,14 +34,14 @@
    $title = $firstName = $lastName = $middleName = $email = $gender = $dob = $resStreet = $resCity = $resZip = $resState = $ofcStreet = $ofcCity = $ofcZip = $ofcState = $marStatus = $empStatus = $employer = $image = $commVia = $note = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = test_input($_POST["name"]);
-  $email = test_input($_POST["email"]);
-  $website = test_input($_POST["website"]);
-  $comment = test_input($_POST["comment"]);
-  $gender = test_input($_POST["gender"]);
+  $title = validateInput($_POST["title"]);
+  $firstName = validateInput($_POST["firstName"]);
+  $lastName = validateInput($_POST["lastName"]);
+  $middleName = validateInput($_POST["middleName"]);
+  $email = validateInput($_POST["email"]);
 }
 
-function test_input($data) {
+function validateInput($data) {
   $data = trim($data);
   $data = stripslashes($data);
   $data = htmlspecialchars($data);
