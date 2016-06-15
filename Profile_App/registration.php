@@ -1,54 +1,33 @@
 <?php
    require_once("config/dbConnect.php");
-   
+
    //if(isset($_COOKIE['errors'])) {
-      //  echo "Value is: " . $_COOKIE['errors'];} 
-   
+   //  echo "Value is: " . $_COOKIE['errors'];} 
+
    //check if edit clicked, update flag value
    if(isset($_GET['edit'])) {
       $update = 1;
       $empId = $_GET['edit'];
-   $selectQuery = "SELECT Employee.empId, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
-        Residence.street AS resStreet, Residence.city AS resCity , Residence.zip AS resZip, Residence.state AS resState,
-        Office.street AS ofcStreet, Office.city AS ofcCity , Office.zip AS ofcZip, Office.state AS ofcState,
-        Employee.maritalStatus, Employee.empStatus, 
-        Employee.employer, Employee.commId, Employee.note
-     FROM Employee 
-     JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-     JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'
-     HAVING EmpID = $empId";
-   
-   $result  = mysqli_query($conn, $selectQuery);
-   $row = mysqli_fetch_assoc($result);
+      $selectQuery = "SELECT Employee.empId, Employee.title, Employee.firstName, Employee.middleName, Employee.lastName, Employee.email, Employee.phone, Employee.gender, Employee.dateOfBirth, 
+         Residence.street AS resStreet, Residence.city AS resCity , Residence.zip AS resZip, Residence.state AS resState,
+         Office.street AS ofcStreet, Office.city AS ofcCity , Office.zip AS ofcZip, Office.state AS ofcState,
+         Employee.maritalStatus, Employee.empStatus, 
+         Employee.employer, Employee.commId, Employee.note
+         FROM Employee 
+         JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
+         JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'
+         HAVING EmpID = $empId";
+
+      $result  = mysqli_query($conn, $selectQuery);
+      $row = mysqli_fetch_assoc($result);
       print_r($row); echo '<br>';
-      }
-   
-    else {
+   }
+
+   else {
       //flag value is 0
       $update = 0;
-    }
+   }
 
-
-    // Form Validation
-   // Define variables for each field and set to empty values
-   $title = $firstName = $lastName = $middleName = $email = $gender = $dob = $resStreet = $resCity = $resZip = $resState = $ofcStreet = $ofcCity = $ofcZip = $ofcState = $marStatus = $empStatus = $employer = $image = $commVia = $note = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $title = validateInput($_POST["title"]);
-  $firstName = validateInput($_POST["firstName"]);
-  $lastName = validateInput($_POST["lastName"]);
-  $middleName = validateInput($_POST["middleName"]);
-  $email = validateInput($_POST["email"]);
-}
-
-function validateInput($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-
-   
    ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,25 +85,20 @@ function validateInput($data) {
                         }
                            else{//if it is a new registration form
                               ?>
-
                      <h1>Registration Form</h1>
                      <?php
                         }
                         ?>                     
                      <div class="well">
                         <h3>Personal Details</h3>
-
                         <!-- hidden fields to fetch flag value and employee id -->
                         <input type="hidden" name="checkUpdate" value="<?php echo $update; ?>">
                         <input type="hidden" name="employeeId" value="<?php echo ($update) ? $row['empId'] : 0; ?>">
-
-
                         <!-- Feilds for name-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">Name</label>
                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
-
-                           <!-- check and assign the value if it is new or update form -->
+                              <!-- check and assign the value if it is new or update form -->
                               <input type="text" name = "title" class="form-control" id="inputTitle" placeholder="Mr/Ms" value="<?php echo ($update) ? $row['title'] : ''; ?>">
                            </div>
                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -137,37 +111,31 @@ function validateInput($data) {
                               <input type="text" name = "lastName" class="form-control" id="inputLastName" placeholder="Last Name" value="<?php echo ($update) ? $row['lastName'] : ''; ?>">
                            </div>
                         </div>
-
-
                         <!-- Email input-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="textinput">Email</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <!-- check and assign the value if it is new or update form -->
+                              <!-- check and assign the value if it is new or update form -->
                               <input id="textinput" name="email" type="text" placeholder="name@email.com" class="form-control input-md" value="<?php echo ($update) ? $row['email'] : ''; ?>">
                            </div>
                         </div>
-
-
                         <!-- phone number input-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="number">Mobile</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <!-- check and assign the value if it is new or update form -->
+                              <!-- check and assign the value if it is new or update form -->
                               <input id="number" name="phone" type="text" placeholder="9999999999" class="form-control input-md" value="<?php echo ($update) ? $row['phone'] : ''; ?>">
                            </div>
                         </div>
-
-
                         <!--radio button for gender-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 " for="gender">Gender</label>
-                           <div class="col-md-4"> 
+                           <div class="col-md-4">
                               <label class="radio-inline" for="gender-0">
-                              <!-- check and select the radio button if it is new or update form -->
-                              <input type="radio" name="gender" id="gender-0" value="Male" <?php echo ($update) ? ($row['gender'] == 'male' ? "checked=checked" : '') : "checked=checked"; ?> >
-                              Male
-                              </label> 
+                                 <!-- check and select the radio button if it is new or update form -->
+                                 <input type="radio" name="gender" id="gender-0" value="Male" <?php echo ($update) ? ($row['gender'] == 'male' ? "checked=checked" : '') : "checked=checked"; ?> >
+                                 Male
+                              </label>
                               <label class="radio-inline" for="gender-1">
                               <input type="radio" name="gender" id="gender-1" value="Female" <?php echo (($update) && $row['gender'] == 'female') ? "checked=checked" : ''; ?>>
                               Female
@@ -178,20 +146,16 @@ function validateInput($data) {
                               </label>
                            </div>
                         </div>
-
-
                         <!--date picker for DOB-->
                         <div class="row form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12">D.O.B</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <!-- check and assign the value if it is new or update form -->
+                              <!-- check and assign the value if it is new or update form -->
                               <input type='date'  name="dob" class="form-control" value="<?php echo ($update) ? $row['dateOfBirth'] : ''; ?>"/>
                            </div>
                         </div>
                      </div>
                      <hr>
-
-
                      <div class="well">
                         <h3>Address Details</h3>
                         <!-- Address input-->
@@ -199,7 +163,6 @@ function validateInput($data) {
                         <div class="row form-group address">
                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                               <label for="Address">Residence Address</label> 
-
                               <!-- check and assign the value if it is new or update form -->
                               <!--Street Name-->
                               <input id="Address" name="resStreet" type="text" placeholder="Street" class="form-control input-md address" value="<?php echo ($update) ? $row['resStreet'] : '';?>">
@@ -298,14 +261,13 @@ function validateInput($data) {
                            </div>
                         </div>
                      </div>
-
                      <div class="well">
                         <h3>Other Details</h3>
                         <!--Marital Status-->
                         <div class="form-group">
                            <label class= "col-lg-2 col-md-2 col-sm-2 col-xs-12" for="marStatus">Marital Status</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <!-- check and select from drop down if it is new or update form -->
+                              <!-- check and select from drop down if it is new or update form -->
                               <select id="marStatus" name="marStatus" class="form-control" >
                                  <option value="0">Status</option>
                                  <option value="single" <?php echo  ($update && 'single' == $row['marStatus']) ? 'selected' : ''; ?>>Single</option>
@@ -322,7 +284,7 @@ function validateInput($data) {
                            Employement Status</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <div class="row">
-                              <!-- check and select the radio button if it is new or update form -->
+                                 <!-- check and select the radio button if it is new or update form -->
                                  <div class="radio col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label><input type="radio" name="empStatus" value="employed" <?php echo ($update) ? ($row['empStatus'] == 'employed' ? "checked=checked" : '') : "checked=checked"; ?>>Employed</label>
                                  </div>
@@ -343,28 +305,23 @@ function validateInput($data) {
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Employer</label>  
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <!-- check and assign value if it is new or update form -->
+                              <!-- check and assign value if it is new or update form -->
                               <input id="textinput" name="employer" type="text" class="form-control input-md" value=" <?php echo ($update) ? $row['employer'] : ''; ?> ">
                            </div>
                         </div>
-
-
                         <!-- Image Upload -->
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="textinput">Upload Image</label>  
                            <label class="btn btn-file col-lg-4 col-md-4 col-sm-4 col-xs-12" ><input type="file" name="image"/>
                            </label>
                         </div>
-
-
-
                         <!-- Communication Medium -->
                         <?php $communicationIds = isset($row['commId']) ? explode(',', $row['commId']) : []; ?>
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Communication">Communicate via</label>
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <div class="row">
-                              <!-- check and select check box if it is new or update form -->
+                                 <!-- check and select check box if it is new or update form -->
                                  <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label for="Communication-0">
                                     <input type="checkbox" name="comm[]" id="Communication-0" value="1" <?php echo ($update) ? (in_array('1', $communicationIds) ? "checked=checked" : '') : "checked=checked";?>>
@@ -397,8 +354,8 @@ function validateInput($data) {
                         <!-- Textarea -->
                         <div class="form-group">
                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12" for="Note">Note</label>
-                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">   
-                           <!-- check and display note if it is new or update form -->                  
+                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                              <!-- check and display note if it is new or update form -->                  
                               <textarea class="form-control" id="Note" name="note" rows="6" placeholder="Write something about yourself"> <?php echo ($update) ? $row['note'] : ''; ?></textarea>
                            </div>
                         </div>
