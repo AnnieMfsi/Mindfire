@@ -1,53 +1,43 @@
 <?php 
    require_once("config/dbConnect.php");
    include("ImagePath.php");  
-      // Delete a row
-         if(isset($_GET['delete'])){
-            $empId = $_GET['delete'];
+   // Delete a row
+   if(isset($_GET['delete'])){
+      $empId = $_GET['delete'];
 
-            // Extract image name and delete it
-            $imgQuery = "SELECT image FROM Employee WHERE Employee.empId = $empId";
-            $img = mysqli_fetch_array(mysqli_query($conn, $imgQuery));
+      // Extract image name and delete it
+      $imgQuery = "SELECT image FROM Employee WHERE Employee.empId = $empId";
+      $img = mysqli_fetch_array(mysqli_query($conn, $imgQuery));
+      unlink(ImagePath.$img['image']);
 
-            
+      $deleteQuery1 = "DELETE
+         FROM Address
+         WHERE Address.empId = $empId";
+      $deleteQuery2 = "DELETE
+         FROM Employee
+         WHERE Employee.empId = $empId"; 
 
-            
-            unlink(ImagePath.$img['image']);
+      $delResult1 = mysqli_query($conn, $deleteQuery1); 
+      $delResult2 = mysqli_query($conn, $deleteQuery2); 
 
-            $deleteQuery1 = "DELETE
-                     FROM Address
-                     WHERE Address.empId = $empId";
-            $deleteQuery2 = "DELETE
-                     FROM Employee
-                     WHERE Employee.empId = $empId"; 
+      if ($delResult1 && $delResult2) {
+         header('Location:list.php');
+      }
+   }
 
-            $delResult1 = mysqli_query($conn, $deleteQuery1); 
-            $delResult2 = mysqli_query($conn, $deleteQuery2); 
+   // Query to fetch data from database
+         $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
+         CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', Residence.state ) AS Res,
+         CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state ) AS Ofc,
+         Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
+         Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, Employee.note AS Note
+         FROM Employee 
+         JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
+         JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
 
-            
-            if ($delResult1 && $delResult2) {
-               header('Location:list.php');
-            }
-         }
-      
-      
-      // Query to fetch data from database
-      
-            $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
-                              CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', Residence.state ) AS Res,
-                              CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state ) AS Ofc,
-                              Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
-                              Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, Employee.note AS Note
-   
-                           FROM Employee 
-                           JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-                           JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
-      
-      
-      
-      $result = mysqli_query($conn, $displayQuery);
-      
-      ?>
+   $result = mysqli_query($conn, $displayQuery);
+
+   ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -88,7 +78,7 @@
             <tbody>
             <thead>
                <tr>
-               <!-- column headers -->
+               <!-- Column headers -->
                   <th>Serial No.</th>
                   <th>Name</th>
                   <th>Email</th>
