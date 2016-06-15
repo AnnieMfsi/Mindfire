@@ -1,6 +1,6 @@
 <?php
         require_once("config/dbConnect.php");
-        include("ImagePath.php");
+        include("Constants.php");
 
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $firstName = isset($_POST['firstName']) ? $_POST['firstName'] : '';
