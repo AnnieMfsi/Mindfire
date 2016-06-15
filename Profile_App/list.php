@@ -1,6 +1,6 @@
 <?php 
    require_once("config/dbConnect.php");
-   include("ImagePath.php");  
+   include("config/Constants.php");  
    // Delete a row
    if(isset($_GET['delete'])){
       $empId = $_GET['delete'];
@@ -8,19 +8,19 @@
       // Extract image name and delete it
       $imgQuery = "SELECT image FROM Employee WHERE Employee.empId = $empId";
       $img = mysqli_fetch_array(mysqli_query($conn, $imgQuery));
-      unlink(ImagePath.$img['image']);
+      unlink(IMAGEPATH.$img['image']);
 
-      $deleteQuery1 = "DELETE
+      $deleteAddress = "DELETE
          FROM Address
          WHERE Address.empId = $empId";
-      $deleteQuery2 = "DELETE
+      $deleteEmployee = "DELETE
          FROM Employee
          WHERE Employee.empId = $empId"; 
 
-      $delResult1 = mysqli_query($conn, $deleteQuery1); 
-      $delResult2 = mysqli_query($conn, $deleteQuery2); 
+      $delResultAddr = mysqli_query($conn, $deleteAddress); 
+      $delResultEmp = mysqli_query($conn, $deleteEmployee); 
 
-      if ($delResult1 && $delResult2) {
+      if ($delResultAddr && $delResultEmp) {
          header('Location:list.php');
       }
    }
