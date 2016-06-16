@@ -1,6 +1,5 @@
 <?php 
    require_once("config/dbConnect.php");
-   include("config/Constants.php");  
    // Delete a row
    if(isset($_GET['delete'])){
       $empId = $_GET['delete'];
@@ -53,28 +52,10 @@
       <link href="css/styles.css" rel="stylesheet">
    </head>
    <body>
-      <!-- Navigation -->
-      <nav class="navbar navbar-inverse">
-         <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-               <p class="navbar-brand">GetEmpl0yed.com</p>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <ul class="nav navbar-nav">
-               <li class="active">
-                  <a href="home.html">Home</a>
-               </li>
-               <li>
-                  <a href="registration.html">Registration</a>
-               </li>
-            </ul>
-         </div>
-         <!-- Container -->
-      </nav>
+      <?php include('template/header.php'); ?>
       <!-- Page Content -->
       <div class="container-fluid">
-         <table class=" table table-responsive">
+         <table class="table table-responsive">
             <tbody>
             <thead>
                <tr>
@@ -91,7 +72,7 @@
                   <th>Employement Status</th>
                   <th>Employer</th>
                   <th>Communication</th>
-                  <th>Image</th>
+                   <th>Image</th>
                   <th>Note</th>
                   <th>Edit</th>
                   <th>Delete</th>
@@ -104,44 +85,45 @@
             // Continue till the last record 
                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                   ++$i;?>
-
-            <tr>
-               <?php foreach ($row as $key => $value) {
-                  ?>
-               <td> <?php 
-
-               if($key == 'EmpID'){
-                  $value = $i;
-
-               }
-
-               if ($key == 'Communication') {
-                  $commQuery = "SELECT CommMedium FROM  `Communication` WHERE  `CommId` IN ($value)";
-                  $commResult = mysqli_query($conn, $commQuery);
-                  while ($commRow = mysqli_fetch_array($commResult, MYSQLI_ASSOC)){
-                        foreach ($commRow as $key => $value) {
-                           echo $value . '<br /> ';
+                  <tr>
+                     <?php foreach ($row as $key => $value) {
+                           ?>
+                        <td> <?php 
+                        if ($key == 'EmpID'){
+                           $value = $i;
+                           echo $value;
                         }
-                     }
+                        elseif ($key == 'Communication') {
+                           $commQuery = "SELECT CommMedium FROM  `Communication` WHERE  `CommId` IN ($value)";
+                           $commResult = mysqli_query($conn, $commQuery);
+                           while ($commRow = mysqli_fetch_array($commResult, MYSQLI_ASSOC)){
+                              foreach ($commRow as $key => $value) {
+                                 echo $value . '<br /> ';
+                              }
+                           }
+                        }
+                        elseif ($key == 'Image') {?>
+                           <img src = "<?php echo IMAGEPATH.$value;?>" alt = "No image" height = "50" width = "50"><?php
+                        }
+                        else {
+                           echo $value;
+                        }
 
-               }
-                  else {
-                     echo $value;
-                  }
-                  ?> </td>
-               <?php } ?>
-               <!--Edit graphic-->
-               <td><a href="registration.php?edit=<?php echo $row['EmpID']; ?>">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                  </a>
-               </td>
-               <!--Delete graphic-->
-               <td><a href="list.php?delete=<?php echo $row['EmpID']; ?>">
-                  <span class="glyphicon glyphicon-remove"></span>
-                  </a>
-               </td>
-            </tr>
-            <?php }?>
+                        
+                        ?> </td>
+                        <?php } ?>
+                        <!--Edit graphic-->
+                        <td><a href="registration.php?edit=<?php echo $row['EmpID']; ?>">
+                           <span class="glyphicon glyphicon-pencil"></span>
+                           </a>
+                        </td>
+                     <!--Delete graphic-->
+                     <td><a href="list.php?delete=<?php echo $row['EmpID']; ?>">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                     </td>
+                  </tr>
+                  <?php }?>
             </tbody>
          </table>
       </div>

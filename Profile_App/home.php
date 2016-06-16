@@ -19,28 +19,7 @@
 </head>
 
 <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse">
-    
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <p class="navbar-brand">GetEmpl0yed.com</p>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-                 <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="home.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="registration.php">Registration</a>
-                    </li>
-                </ul>
-        </div>
-        <!-- /.container -->
-    </nav>
-
+    <?php include('template/header.php'); ?>
     <!-- Page Content -->
     <div class="container text-center">           
                 <h1>Welcome to GetEmployed.com</h1>

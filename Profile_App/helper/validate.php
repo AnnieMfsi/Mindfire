@@ -1,7 +1,4 @@
 <?php
-        require_once("config/dbConnect.php");
-        include("config/Constants.php");
-
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $firstName = isset($_POST['firstName']) ? $_POST['firstName'] : '';
         $middleName = isset($_POST['middleName']) ? $_POST['middleName'] : '';
@@ -25,10 +22,10 @@
         $image = isset($_POST['image']) ? $_POST['image'] : '';
         $communication = (isset($_POST['comm']) && !empty($_POST['comm'])) ? implode(", " , $_POST['comm']) : '';
         $note = isset($_POST['note']) ? $_POST['note'] : '';
-        $update = (isset($_POST['checkUpdate']) && 1 == $_POST['checkUpdate']) ? 1 : 0;
+        $update = (isset($_POST['checkUpdate']) && 1 == $_POST['checkUpdate']) ? TRUE : FALSE;
         $employeeIdUpdate = isset($_POST['employeeId']) ? $_POST['employeeId'] : ''; 
         $errorList = array("titleErr" => "", "firstNameErr" => "", "middleNameErr" => "", "lastNameErr" => "", "emailErr" => "", "phoneErr" => "", "genderErr" => "", "dobErr" => "", "resStreetErr" => "", "resCityErr" => "", "resZipErr" => "", "resStateErr" => "", "ofcStreetErr" => "", "ofcCityErr" => "", "ofcZipErr" => "", "ofcStateErr" => "", "marStatusErr" => "", "empStatusErr" => "", "employerErr" => "", "commViaErr" => "", "noteErr" => "", "imageErr" => "", "ofcStreetErr" => "", "dobErr" => "", "ofcCityErr" => "", "ofcZipErr" => "", "ofcStateErr" => "");
-
+        $error = FALSE;
 
         // Image upload and image validation
         if (!$_FILES['image']['error']) {
@@ -43,12 +40,14 @@
             $extensions = array("jpeg","jpg","png");
             if(in_array($imageExt,$extensions) === false) {
                 $errorList['imageErrType'] = "Extension not allowed, please choose a JPEG or PNG file.";
+                $error= TRUE;
             }
 
             // Image size validation
             $maxSize = 2097152;
             if($imageSize > $maxSize){
                 $errorList['imageErr'] = 'File size must be excately 2 MB';
+                $error= TRUE;
             }
 
             // Move image to desired folder
@@ -58,8 +57,9 @@
 
         }
 
-        else{
+        else if (!$update) {
             $errorList['imageErr'] = "Enter a valid image";
+            $error= TRUE;
         }
         
         // Form Validation
@@ -67,108 +67,110 @@
         // Check Title
         if (empty($title)) {
             $errorList['titleErr'] = "Title is required";
+            $error= TRUE;
         }
         else {
             // Check if title only contains letters and whitespace
             if (!preg_match("/^[a-zA-Z ]*$/",$title)) {
                 $errorList['titleErr'] = "Only letters allowed";
+                $error= TRUE;
             }
         }
 
         // Check First Name
         if (empty($firstName)) {
             $errorList['firstNameErr'] = "First Name is required";
+            $error= TRUE;
         } 
         else {
             // Check if first name only contains letters and whitespace
             if (!preg_match("/^[a-zA-Z ]*$/",$firstName)) {
                 $errorList['firstNameErr'] = "Only letters allowed"; 
-                //$errorList[] = $firstNameErr;
+                $error= TRUE;
             }
         }
 
-        // Check Middle Name
-        if (empty($middleName)) {
-            $errorList['middleNameErr'] = "";
-        } 
-        else {
-            // Check if middle name only contains letters and whitespace
-            if (!preg_match("/^[a-zA-Z ]*$/",$middleName)) {
-                $errorList['middleNameErr'] = "Only letters allowed"; 
-            }
+        // Check Middle Name only contains letters and whitespace
+        if (!empty($middleName) && !preg_match("/^[a-zA-Z ]*$/",$middleName)) {
+            $errorList['middleNameErr'] = "Only letters allowed"; 
+            $error= TRUE;
         }
 
         // Check Last Name
         if (empty($lastName)) {
             $errorList['lastNameErr'] = "Last Name is required";
+            $error= TRUE;
         } 
         else {
             // Check if last name only contains letters and whitespace
             if (!preg_match("/^[a-zA-Z ]*$/",$lastName)) {
-                $errorList['lastNameErr'] = "Only letters allowed"; 
+                $errorList['lastNameErr'] = "Only letters allowed";
+                $error= TRUE;
             }
         }
 
         // Check Email
         if (empty($email)) {
             $errorList['emailErr'] = "Email is required";
+            $error= TRUE;
         } 
         else {
             // Check if e-mail address is well-formed
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errorList['emailErr'] = "Invalid email format"; 
-                echo '===';
-            } else {
-                echo '---';
+                $error= TRUE;
             }
         }
 
         // Check Phone number
         if (empty($phone)) {
             $errorList['phoneErr'] = "Phone number is required";
+            $error= TRUE;
         } 
         else {
             // Check if number only contains digits
             if (!preg_match("/^\d{10}$/",$phone)) {
                 $errorList['phoneErr'] = "Invalid contact number"; 
+                $error= TRUE;
             }
         }
 
         // Check DOB
         if (empty($dob)) {
             $errorList['dobErr'] = "Date Of Birth is required";
+            $error= TRUE;
         }
 
 
         // Check if Street for residence is entered
         if (empty($resStreet)) {
-        $errorList['resStreetErr'] = "Residential street is required";
+            $errorList['resStreetErr'] = "Residential street is required";
+            $error= TRUE;
         }
 
         // Check if Street for residence is entered
         if (empty($resCity)) {
-        $errorList['resCityErr'] = "Residential City is required";
+            $errorList['resCityErr'] = "Residential City is required";
+            $error= TRUE;
         }
 
         // Check if Zip code for residence
         if (empty($resZip)) {
-        $errorList['resZipErr'] = "Residential Zip code is required";
+            $errorList['resZipErr'] = "Residential Zip code is required";
+            $error= TRUE;
         }
 
 
         // Check if resident state is selected
         if($resState === 0) {
             $errorList['resStateErr'] = 'Please select one on the List for residential state';
+            $error= TRUE;
         }
 
-        $errorList['ofcStreetErr'] = ' ';
-        $errorList['ofcCityErr'] = ' ';
-        $errorList['ofcZipErr'] = ' ';
-        $errorList['ofcStateErr'] = ' ';
-
         // Check if marital is selected   
-        if ($marStatus == 0) {
-        $errorList['marStatusErr'] = "Please specify your marital Status";
+        if ($marStatus === 0) {
+            $errorList['marStatusErr'] = "Please specify your marital Status";
+            $error= TRUE;
         }
 
         // Check if employer is specified
@@ -176,72 +178,16 @@
             $_POST['employer'] = 'Self';
             $employer = $_POST['employer'];
             $errorList['employerErr'] = ""; 
+            $error= TRUE;
         }
         elseif ($empStatus == 'employed') {
             $errorList['employerErr'] = "Specify Your employer"; 
+            $error= TRUE;
         }
              
         // Check if means of communication is selected   
         if (empty($communication)) {
             $errorList['commViaErr'] = "Select atleast one communication medium";
-        } 
-        /*if (0 == count($errorList)) {
-
-            if(1 == $update) {
-                // Update details
-                $empUpdate = "UPDATE Employee
-                    SET title = '$title', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', dateOfBirth = '$dob',
-                    gender = '$gender', phone = '$phone', email = '$email', maritalStatus = '$marStatus', empStatus = '$empStatus',
-                    commId = '$communication', employer = '$employer', image = '$name', note = '$note'
-                    WHERE empId = $employeeIdUpdate";
-                $empOfcUpdate = "UPDATE Address
-                    SET street = '$ofcStreet', city = '$ofcCity', zip = '$ofcZip', state = '$ofcState'
-                    WHERE empId = '$employeeIdUpdate' AND addressType = 'office'" ;
-                $empResUpdate = "UPDATE Address
-                    SET street = '$resStreet', city = '$resCity', zip = '$resZip', state = '$resState'
-                    WHERE empId = '$employeeIdUpdate' AND addressType = 'residence' ";
-
-                $result  = mysqli_query($conn, $empUpdate);
-                mysqli_query($conn, $empOfcUpdate);
-                mysqli_query($conn, $empResUpdate);
-
-                echo $empUpdate . '<br />';
-                echo $empOfcUpdate . '<br />';
-                echo $empResUpdate . '<br />';
-            }
-           else {
-                // Insert personal details
-                $employeeInsert = "INSERT INTO Employee(title, firstName, middleName, lastName, dateOfBirth, gender, phone, email, maritalStatus, empStatus, commId, image, note, employer)
-                    VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$empStatus', '$communication','$name', '$note', '$employer')";
-
-                $result  = mysqli_query($conn, $employeeInsert);
-
-                $employeeId = mysqli_insert_id($conn);
-                // Writing sql query to insert personal details
-                $address = "INSERT INTO Address(addressType, street, city, zip, state, empId) 
-                    values('office', '$ofcStreet', '$ofcCity', '$ofcZip', '$ofcState', '$employeeId'), ('residence', '$resStreet', '$resCity', '$resZip', '$resState', '$employeeId')";
-                    $AddressResult = mysqli_query($conn, $address);
-
-                echo $employeeInsert;
-                echo $address;
-
-                if (! $result) {
-                    echo "Insertion failed " . mysql_error();
-                    setcookie('errors', 'fail');
-                    //header('Location:registration.php');
-                }
-           }
-
+            $error= TRUE;
         }
-        else{
-            header('Location:registration.php?');
-        }
-
-
-       
-   
-         //Print auto-generated id
-         echo "New record has id: " . mysqli_insert_id($conn);
-         //header('Location:list.php');
-         */
-      ?>
+?>
