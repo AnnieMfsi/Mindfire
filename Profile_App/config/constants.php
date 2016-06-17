@@ -1,5 +1,5 @@
 <?php
-	define("IMAGEPATH", "profilePicture/", true);
+	define("IMAGEPATH", "images/profilePicture/", true);
 	define("DBHOST", "localhost", true);
 	define("DBUSER", "root", true);
 	define("DBPASSWORD", "mindfire", true);
