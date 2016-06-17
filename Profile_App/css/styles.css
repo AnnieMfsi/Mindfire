@@ -16,7 +16,7 @@ padding: 15px 0;
 }
 }
 body{
-background: #000 url("../ProfilePicture/BgIndex.jpg")center center;
+background: #000 url("../profilePicture/BgIndex.jpg")center center;
 height: 100%;
 background-size: cover;
 }
