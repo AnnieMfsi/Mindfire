@@ -1,7 +1,7 @@
 <?php 
    require_once("config/dbConnect.php");
    // Delete a row
-   if(isset($_GET['delete'])){
+   if(isset($_GET['delete'])) {
       $empId = $_GET['delete'];
 
       // Extract image name and delete it
@@ -25,18 +25,18 @@
    }
 
    // Query to fetch data from database
-         $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
-         CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', Residence.state ) AS Res,
-         CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state ) AS Ofc,
-         Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
-         Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, Employee.note AS Note
-         FROM Employee 
-         JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-         JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
+   $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
+   CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', Residence.state ) AS Res,
+   CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state ) AS Ofc,
+   Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
+   Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, Employee.note AS Note
+   FROM Employee 
+   JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
+   JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
 
    $result = mysqli_query($conn, $displayQuery);
+?>
 
-   ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -57,43 +57,42 @@
       <div class="container-fluid">
          <table class="table table-responsive">
             <tbody>
-            <thead>
-               <tr>
-               <!-- Column headers -->
-                  <th>Serial No.</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Gender</th>
-                  <th>Date of Birth</th>
-                  <th>Office Address</th>
-                  <th>Residential Address</th>
-                  <th>Marital  Status</th>
-                  <th>Employement Status</th>
-                  <th>Employer</th>
-                  <th>Communication</th>
-                   <th>Image</th>
-                  <th>Note</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-               </tr>
-            </thead>
-
-
-            <?php
-            $i = 0;
-            // Continue till the last record 
-               while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                  ++$i;?>
+               <thead>
                   <tr>
-                     <?php foreach ($row as $key => $value) {
-                           ?>
+                  <!-- Column headers -->
+                     <th>Serial No.</th>
+                     <th>Name</th>
+                     <th>Email</th>
+                     <th>Phone</th>
+                     <th>Gender</th>
+                     <th>Date of Birth</th>
+                     <th>Office Address</th>
+                     <th>Residential Address</th>
+                     <th>Marital  Status</th>
+                     <th>Employement Status</th>
+                     <th>Employer</th>
+                     <th>Communication</th>
+                      <th>Image</th>
+                     <th>Note</th>
+                     <th>Edit</th>
+                     <th>Delete</th>
+                  </tr>
+               </thead>
+
+               <?php
+               $i = 0;
+               // Continue till the last record 
+                  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                     ++$i;?>
+                     <tr>
+                        <?php foreach ($row as $key => $value) {
+                        ?>
                         <td> <?php 
                         if ($key == 'EmpID'){
                            $value = $i;
                            echo $value;
                         }
-                        elseif ($key == 'Communication') {
+                        else if ($key == 'Communication') {
                            $commQuery = "SELECT CommMedium FROM  `Communication` WHERE  `CommId` IN ($value)";
                            $commResult = mysqli_query($conn, $commQuery);
                            while ($commRow = mysqli_fetch_array($commResult, MYSQLI_ASSOC)){
@@ -102,28 +101,30 @@
                               }
                            }
                         }
-                        elseif ($key == 'Image') {?>
+                        else if ($key == 'Image') {?>
                            <img src = "<?php echo IMAGEPATH.$value;?>" alt = "No image" height = "50" width = "50"><?php
                         }
                         else {
                            echo $value;
-                        }
-
-                        
+                        }                        
                         ?> </td>
-                        <?php } ?>
+                        <?php 
+                           } 
+                        ?>
                         <!--Edit graphic-->
                         <td><a href="registration.php?edit=<?php echo $row['EmpID']; ?>">
                            <span class="glyphicon glyphicon-pencil"></span>
                            </a>
                         </td>
-                     <!--Delete graphic-->
-                     <td><a href="list.php?delete=<?php echo $row['EmpID']; ?>">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                     </td>
-                  </tr>
-                  <?php }?>
+                        <!--Delete graphic-->
+                        <td><a href="list.php?delete=<?php echo $row['EmpID']; ?>">
+                           <span class="glyphicon glyphicon-remove"></span>
+                           </a>
+                        </td>
+                     </tr>
+                  <?php 
+                  }
+                  ?>
             </tbody>
          </table>
       </div>
