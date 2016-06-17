@@ -14,18 +14,18 @@
         // Update details
         // Query for employee details
         $empUpdate = "UPDATE Employee
-        SET title = '$title', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', dateOfBirth = '$dob', gender = '$gender', phone = '$phone', email = '$email', maritalStatus = '$marStatus', empStatus = '$empStatus', commId = '$communication', employer = '$employer', image = '$name', note = '$note'
-        WHERE empId = $employeeIdUpdate";
+          SET title = '$title', firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', dateOfBirth = '$dob', gender = '$gender', phone = '$phone', email = '$email', maritalStatus = '$marStatus', empStatus = '$empStatus', commId = '$communication', employer = '$employer', image = '$name', note = '$note'
+          WHERE empId = $employeeIdUpdate";
 
         // Query for Office address details
         $empOfcUpdate = "UPDATE Address
-        SET street = '$ofcStreet', city = '$ofcCity', zip = '$ofcZip', state = '$ofcState'
-        WHERE empId = '$employeeIdUpdate' AND addressType = 'office'" ;
+          SET street = '$ofcStreet', city = '$ofcCity', zip = '$ofcZip', state = '$ofcState'
+          WHERE empId = '$employeeIdUpdate' AND addressType = 'office'" ;
         
         // Query for Residential address details
         $empResUpdate = "UPDATE Address
-        SET street = '$resStreet', city = '$resCity', zip = '$resZip', state = '$resState'
-        WHERE empId = '$employeeIdUpdate' AND addressType = 'residence' ";
+          SET street = '$resStreet', city = '$resCity', zip = '$resZip', state = '$resState'
+          WHERE empId = '$employeeIdUpdate' AND addressType = 'residence' ";
 
         $result  = mysqli_query($conn, $empUpdate);
         mysqli_query($conn, $empOfcUpdate);
@@ -34,7 +34,8 @@
         else {
           // Insert personal details
           $employeeInsert = "INSERT INTO Employee(title, firstName, middleName, lastName, dateOfBirth, gender, phone, email, maritalStatus, empStatus, commId, image, note, employer)
-              VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$empStatus', '$communication','$name', '$note', '$employer')";
+            VALUES ('$title', '$firstName', '$middleName', '$lastName', '$dob', '$gender', $phone, '$email', '$marStatus', '$empStatus', '$communication','$name',
+           '$note', '$employer')";
 
           $result  = mysqli_query($conn, $employeeInsert);
           $employeeId = mysqli_insert_id($conn);

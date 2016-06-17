@@ -38,7 +38,8 @@
         $exploded = explode('.',$_FILES['image']['name']);
         $imageExt =strtolower(end($exploded));
         $extensions = array("jpeg","jpg","png");
-        if(in_array($imageExt,$extensions) === false) {
+
+        if(FALSE === in_array($imageExt,$extensions)) {
             $errorList['imageErrType'] = "Extension not allowed, please choose a JPEG or PNG file.";
             $error= TRUE;
         }
