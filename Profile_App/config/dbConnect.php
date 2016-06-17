@@ -2,7 +2,7 @@
     ini_set('display_errors', 1);// For errors to be printed on screen for user or not
     ini_set('display_startup_errors', 1);// For php start up errors during debugging
     error_reporting(E_ALL);
-    include("Constants.php");
+    include("constants.php");
 
 
     // Initialize the connection parameters
