@@ -1,7 +1,15 @@
 <?php 
-   require_once("config/dbConnect.php");
+   /*
+      @Author  : Mfsi_Annapurnaa
+      @purpose : handle thelisting of employee data. 
+               : Deletion of a row
+   */
+
+
+   require_once('config/dbConnect.php');
    // Delete a row
-   if(isset($_GET['delete'])) {
+   if(isset($_GET['delete']))
+   {
       $empId = $_GET['delete'];
 
       // Extract image name and delete it
@@ -19,24 +27,29 @@
       $delResultAddr = mysqli_query($conn, $deleteAddress); 
       $delResultEmp = mysqli_query($conn, $deleteEmployee); 
 
-      if ($delResultAddr && $delResultEmp) {
+      if ($delResultAddr && $delResultEmp)
+      {
+         echo 'Deletion failed' . mysql_error(); 
          header('Location:list.php');
       }
    }
 
    // Query to fetch data from database
-   $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
-   CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', Residence.state ) AS Res,
-   CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state ) AS Ofc,
-   Employee.maritalStatus AS MaritalStatus, Employee.empStatus AS EmploymentStatus, 
-   Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, Employee.note AS Note
-   FROM Employee 
-   JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-   JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
+   $displayQuery = "SELECT Employee.empId AS EmpID, CONCAT(Employee.title, ' ', Employee.firstName, 
+      ' ', Employee.middleName, ' ', Employee.lastName) AS Name, Employee.email AS EmailID, 
+      Employee.phone AS Phone, Employee.gender AS Gender, Employee.dateOfBirth AS Dob, 
+      CONCAT(Residence.street, '<br />' , Residence.city , '<br />', Residence.zip,'<br />', 
+      Residence.state ) AS Res,
+      CONCAT(Office.street, '<br />', Office.city , '<br />',  Office.zip, '<br />', Office.state) AS Ofc,
+      Employee.maritalStatus AS marStatus, Employee.empStatus AS EmploymentStatus, 
+      Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, 
+      Employee.note AS Note
+      FROM Employee 
+      JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
+      JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
 
    $result = mysqli_query($conn, $displayQuery);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -78,38 +91,47 @@
                      <th>Delete</th>
                   </tr>
                </thead>
-
                <?php
                $i = 0;
                // Continue till the last record 
                   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                      ++$i;?>
                      <tr>
-                        <?php foreach ($row as $key => $value) {
+                        <?php foreach ($row as $key => $value)
+                        {
                         ?>
                         <td> <?php 
-                        if ($key == 'EmpID'){
+                        if ('EmpID' === $key)
+                        {
                            $value = $i;
                            echo $value;
                         }
-                        else if ($key == 'Communication') {
-                           $commQuery = "SELECT CommMedium FROM  `Communication` WHERE  `CommId` IN ($value)";
+                        else if ('Communication' === $key)
+                        {
+                           $commQuery = "SELECT CommMedium FROM  `Communication` WHERE  `CommId` 
+                              IN ($value)";
                            $commResult = mysqli_query($conn, $commQuery);
-                           while ($commRow = mysqli_fetch_array($commResult, MYSQLI_ASSOC)){
-                              foreach ($commRow as $key => $value) {
+
+                           while ($commRow = mysqli_fetch_array($commResult, MYSQLI_ASSOC))
+                           {
+                              foreach ($commRow as $key => $value)
+                              {
                                  echo $value . '<br /> ';
                               }
                            }
                         }
-                        else if ($key == 'Image') {?>
-                           <img src = "<?php echo IMAGEPATH.$value;?>" alt = "No image" height = "50" width = "50"><?php
+                        else if ('Image' === $key) 
+                           { ?>
+                           <img src = "<?php echo IMAGEPATH.$value;?>" alt = "No image" height = "50"
+                               width = "50"><?php
                         }
-                        else {
+                        else 
+                        {
                            echo $value;
                         }                        
                         ?> </td>
                         <?php 
-                           } 
+                        } 
                         ?>
                         <!--Edit graphic-->
                         <td><a href="registration.php?edit=<?php echo $row['EmpID']; ?>">
@@ -129,7 +151,6 @@
          </table>
       </div>
       <!-- Container -->
-
       <!-- JQuery -->
       <script src="js/jquery.js"></script>
       <!-- Bootstrap Core JavaScript -->

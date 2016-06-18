@@ -22,7 +22,7 @@
             <h3 class="primary">Fill the registration form to submit your details. You will get call for the best suitable job available for you.</h3>
             <a href="registration.php" class="btn btn-default btn-lg" role="button">Register</a>
         </div>
-        <!-- /.container -->
+        <!-- Container -->
 
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
