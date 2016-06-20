@@ -1,25 +1,40 @@
 .address{
-margin-bottom: 10px;
+	margin-bottom: 10px;
 }
+
 .checkbox-inline+.checkbox-inline, .radio-inline+.radio-inline{
-margin-left: 0px;
+	margin-left: 0px;
 }
+
 .navbar-fixed-top .nav {
-padding: 15px 0;
+	padding: 15px 0;
 }
+
 .navbar-fixed-top .navbar-brand {
-padding: 0 15px;
+	padding: 0 15px;
 }
+
 @media(min-width:768px) {
-.navbar-fixed-top .navbar-brand {
-padding: 15px 0;
+	.navbar-fixed-top .navbar-brand {
+		padding: 15px 0;
+	}
 }
-}
+
 body{
-background: #000 url("../images/BgIndex.jpg")center center;
-height: 100%;
-background-size: cover;
+	background: #000 url("../images/BgIndex.jpg")center center;
+	height: 100%;
+	background-size: cover;
 }
+
 .btn{
-margin: 8px;
+	margin: 8px;
+}
+
+.error {
+	color: #FF0000;
+}
+
+.table td, th, tr{
+	border: 0.5px solid #000000; 
+	border-top: 0.5px solid #000000 !important;
 }
