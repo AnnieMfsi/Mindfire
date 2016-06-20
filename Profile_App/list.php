@@ -1,10 +1,9 @@
 <?php 
    /*
-      @Author  : Mfsi_Annapurnaa
+      @Author : Mfsi_Annapurnaa
       @purpose : handle thelisting of employee data. 
                : Deletion of a row
    */
-
 
    require_once('config/dbConnect.php');
    // Delete a row
@@ -27,7 +26,7 @@
       $delResultAddr = mysqli_query($conn, $deleteAddress); 
       $delResultEmp = mysqli_query($conn, $deleteEmployee); 
 
-      if ($delResultAddr && $delResultEmp)
+      if (! $delResultAddr && ! $delResultEmp)
       {
          echo 'Deletion failed' . mysql_error(); 
          header('Location:list.php');
@@ -45,10 +44,17 @@
       Employee.employer AS Employer, Employee.commId AS Communication, Employee.image AS Image, 
       Employee.note AS Note
       FROM Employee 
-      JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-      JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'";
+      JOIN Address AS Residence ON Employee.empId = Residence.empId 
+      AND Residence.addressType = 'residence'
+      JOIN Address AS Office ON Employee.empId = Office.empId 
+      AND Office.addressType = 'office'";
 
    $result = mysqli_query($conn, $displayQuery);
+   if (! $result)
+      {
+         echo 'Deletion failed' . mysql_error(); 
+         header('Location:list.php');
+      }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +76,6 @@
       <div class="container-fluid">
          <table class="table table-responsive">
             <tbody>
-               <thead>
                   <tr>
                   <!-- Column headers -->
                      <th>Serial No.</th>
@@ -90,7 +95,6 @@
                      <th>Edit</th>
                      <th>Delete</th>
                   </tr>
-               </thead>
                <?php
                $i = 0;
                // Continue till the last record 
@@ -151,8 +155,6 @@
          </table>
       </div>
       <!-- Container -->
-      <!-- JQuery -->
-      <script src="js/jquery.js"></script>
       <!-- Bootstrap Core JavaScript -->
       <script src="js/bootstrap.min.js"></script>
    </body>

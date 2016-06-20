@@ -1,6 +1,6 @@
 <?php
 	/*
-		@Author  : Mfsi_Annapurnaa
+		@Author : Mfsi_Annapurnaa
 		@purpose : Constants Declaration
 	*/
 
@@ -16,4 +16,4 @@
 	define("DBUSER", "root", TRUE);
 	define("DBPASSWORD", "mindfire", TRUE);
 	define("DBNAME", "RegistrationInfo", TRUE);
-/*End of file*/
+/*End of file constants.php*/

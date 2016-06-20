@@ -1,10 +1,11 @@
 <?php
 /*
-  @Author  : Mfsi_Annapurnaa
+  @Author : Mfsi_Annapurnaa
   @purpose : Registration form layout.
            : Update operaton on the emplolyee data
 */
-   require_once('config/dbConnect.php');
+
+  require_once('config/dbConnect.php');
 
   $stateList = array('Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 
     'Bihar', 'Chandigar', 'Chhattisgarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Goa',
@@ -36,12 +37,14 @@
         // Query for Office address details
         $empOfcUpdate = "UPDATE Address
           SET street = '$ofcStreet', city = '$ofcCity', zip = '$ofcZip', state = '$ofcState'
-          WHERE empId = '$employeeIdUpdate' AND addressType = 'office'" ;
+          WHERE empId = '$employeeIdUpdate' 
+          AND addressType = 'office'" ;
         
         // Query for Residential address details
         $empResUpdate = "UPDATE Address
           SET street = '$resStreet', city = '$resCity', zip = '$resZip', state = '$resState'
-          WHERE empId = '$employeeIdUpdate' AND addressType = 'residence' ";
+          WHERE empId = '$employeeIdUpdate' 
+          AND addressType = 'residence' ";
 
         $result  = mysqli_query($conn, $empUpdate);
         $ofcResult = mysqli_query($conn, $empOfcUpdate);
@@ -70,9 +73,9 @@
             values('office', '$ofcStreet', '$ofcCity', '$ofcZip', '$ofcState', '$employeeId'), 
             ('residence', '$resStreet', '$resCity', '$resZip', '$resState', '$employeeId')";
 
-        $AddressResult = mysqli_query($conn, $address);
+        $addressResult = mysqli_query($conn, $address);
 
-        if(! $result && ! $AddressResult)
+        if(! $result && ! $addressResult)
         {
             echo 'Insertion failed' . mysql_error();  
         }
@@ -105,11 +108,17 @@
       AS ofcZip, Office.state AS ofcState, Employee.maritalStatus AS marStatus, Employee.empStatus, 
       Employee.image, Employee.employer, Employee.commId, Employee.note
       FROM Employee 
-      JOIN Address AS Residence ON Employee.empId = Residence.empId AND Residence.addressType = 'residence'
-      JOIN Address AS Office ON Employee.empId = Office.empId AND Office.addressType = 'office'
+      JOIN Address AS Residence ON Employee.empId = Residence.empId 
+      AND Residence.addressType = 'residence'
+      JOIN Address AS Office ON Employee.empId = Office.empId 
+      AND Office.addressType = 'office'
       HAVING EmpID = $empId";
 
     $result  = mysqli_query($conn, $selectQuery);
+    if(! $result)
+        {
+            echo 'Retrival failed' . mysql_error();  
+        }
     $row = mysqli_fetch_assoc($result);
   }
   else
@@ -125,7 +134,21 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <?php 
+        // If the form is for updating
+        if($update)
+        {
+      ?>
+      <title>Update Form</title>
+      <?php
+        }
+        else
+        {// If it is a new registration form
+      ?>
       <title>Registration Form</title>
+      <?php
+        }
+      ?>  
       <!-- Bootstrap Core CSS -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <!-- Custom CSS -->
@@ -139,12 +162,6 @@
       <div class="container">
          <div class="row">
             <div class="col-lg-12">
-               <div class="error">
-                  <?php 
-                     //if (isset($_COOKIE)) { ?>
-                  <!-- some error occured. -->
-                  <?php //} ?> 
-               </div>
                <form action="registration.php<?php echo ($update) ? '?edit=' . $row['empId']: '';?>" 
                   method="POST" class="form-horizontal" enctype="multipart/form-data">
                   <fieldset>
@@ -304,7 +321,7 @@
                               <!--Street Name-->
                               <input id="ofcStreet" name="ofcStreet" type="text" placeholder="Street" 
                                 class="form-control input-md address" value= "<?php echo ($update) ? $row['ofcStreet'] : 
-                                (isset($_POST['ofcStreet']) ? $_POST['ofcStreet'] : '');?>"">
+                                (isset($_POST['ofcStreet']) ? $_POST['ofcStreet'] : '');?>">
                               <!-- City-->                          
                               <input id="OfcCity" name="ofcCity" type="text" placeholder="city" 
                                 class="form-control input-md address" value= "<?php echo ($update) ? $row['ofcCity'] : 
@@ -394,7 +411,7 @@
                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                               <!-- Check and assign value if it is new or update form -->
                               <input id="textinput" name="employer" type="text" class="form-control input-md" 
-                                value=" <?php echo ($update) ? $row['employer'] : ''; ?> ">
+                                value=" <?php echo ($update) ? $row['employer'] : (isset($_POST['employer']) ? $_POST['employer'] : ''); ?> ">
                               <span class="error"><?php echo $errorList['employerErr'];?></span>
                            </div>
                         </div>
@@ -511,8 +528,6 @@
          </div>
       </div>
       <!-- Container -->
-      <!-- jQuery -->
-      <script src="js/jquery.js"></script>
       <!-- Bootstrap Core JavaScript -->
       <script src="js/bootstrap.min.js"></script>
    </body>

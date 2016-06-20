@@ -1,6 +1,6 @@
 <?php
 /*
-      @Author  : Mfsi_Annapurnaa
+      @Author : Mfsi_Annapurnaa
       @purpose : Form Validation
 */
       
@@ -72,7 +72,7 @@
     }
     else if(!$update)
     {
-        $errorList['imageErr'] = 'Enter an image';
+        $errorList['imageErr'] = 'Select an image';
         $error = TRUE;
     }
 
@@ -196,14 +196,14 @@
     // Check if resident state is selected
     if('0' === $resState)
     {
-        $errorList['resStateErr'] = 'Please select one on the List for residential state';
+        $errorList['resStateErr'] = 'Please select one on the list for residential state';
         $error = TRUE;
     }
 
     // Check if marital is selected   
     if('0' === $marStatus)
     {
-        $errorList['marStatusErr'] = 'Please specify your marital Status';
+        $errorList['marStatusErr'] = 'Please specify your marital status';
         $error = TRUE;
     }
 
@@ -213,7 +213,7 @@
         $_POST['employer'] = 'Self';
         $employer = $_POST['employer'];
     }
-    else if('employed' === $empStatus)
+    else if('employed' === $empStatus && empty($_POST['employer']))
     {
         $errorList['employerErr'] = 'Specify Your employer'; 
         $error = TRUE;
@@ -225,11 +225,4 @@
         $errorList['commViaErr'] = 'Select atleast one communication medium';
         $error = TRUE;
     }
-
-    $stateList = array('Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 
-    'Bihar', 'Chandigar', 'Chhattisgarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Goa',
-     'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 
-     'Kerala', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 
-     'Nagaland', 'Orissa', 'Pondicherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Tripura', 
-     'Uttaranchal', 'Uttar Pradesh', 'West Bengal');
 ?>

@@ -1,10 +1,12 @@
 <?php
     /*
-      @Author  : Mfsi_Annapurnaa
+      @Author : Mfsi_Annapurnaa
       @purpose : Make db connection
     */
-    //including the file containing the consta
+
+    //including the file containing the constants
     include('constants.php');
+
     // Initialize the connection parameters
     $host = DBHOST;
     $uName = DBUSER;
